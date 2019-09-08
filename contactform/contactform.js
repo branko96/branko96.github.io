@@ -130,7 +130,7 @@ function enviar_mail(){
   message => mostrar_mensaje(message)
 );
 }
-function mostrar_mensaje(msj){
+function mostrar_mensaje(msg){
   if (msg == 'OK') {
     $("#sendmessage").addClass("show");
     $("#errormessage").removeClass("show");
