@@ -125,7 +125,7 @@ function enviar_mail(sujeto,mensaje,mail){
     To : 'branko-96@hotmail.com',
     From : "brankoottavianelli@gmail.com",
     Subject : sujeto,
-    Body : "De: "+from+" , "+mensaje
+    Body : "De: "+mail+" , "+mensaje
 }).then(
   message => mostrar_mensaje(message)
 );
