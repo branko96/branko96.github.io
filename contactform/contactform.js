@@ -127,6 +127,17 @@ function enviar_mail(){
     Subject : "This is the subject",
     Body : "And this is the body"
 }).then(
-  message => alert(message)
+  message => mostrar_mensaje(message)
 );
+}
+function mostrar_mensaje(msj){
+  if (msg == 'OK') {
+    $("#sendmessage").addClass("show");
+    $("#errormessage").removeClass("show");
+    $('.contactForm').find("input, textarea").val("");
+  } else {
+    $("#sendmessage").removeClass("show");
+    $("#errormessage").addClass("show");
+    $('#errormessage').html(msg);
+  }
 }
