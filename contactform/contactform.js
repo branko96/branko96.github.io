@@ -138,7 +138,7 @@ function mostrar_mensaje(msg){
   } else {
     $("#sendmessage").removeClass("show");
     $("#errormessage").addClass("show");
-    $('#errormessage').html(msg);
+    $('#errormessage').html("No se ha podido enviar el mensaje, intente mas tarde");
   }
   $('.contactForm').hide("slow");
   $("#btn_volver").show();
