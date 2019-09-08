@@ -140,4 +140,12 @@ function mostrar_mensaje(msg){
     $("#errormessage").addClass("show");
     $('#errormessage').html(msg);
   }
+  $('.contactForm').hide("slow");
+  $("#btn_volver").show();
+}
+function mostrar_form(){
+  $('.contactForm').show("fast");
+  $("#btn_volver").hide();
+  $("#sendmessage").removeClass("show");
+  $("#errormessage").removeClass("show");
 }
