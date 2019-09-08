@@ -94,25 +94,39 @@ jQuery(document).ready(function($) {
     if( ! action ) {
       action = 'contactform/contactform.php';
     }
-    $.ajax({
-      type: "POST",
-      url: action,
-      data: str,
-      success: function(msg) {
-        // alert(msg);
-        if (msg == 'OK') {
-          $("#sendmessage").addClass("show");
-          $("#errormessage").removeClass("show");
-          $('.contactForm').find("input, textarea").val("");
-        } else {
-          $("#sendmessage").removeClass("show");
-          $("#errormessage").addClass("show");
-          $('#errormessage').html(msg);
-        }
+    enviar_mail();
+    // $.ajax({
+    //   type: "POST",
+    //   url: action,
+    //   data: str,
+    //   success: function(msg) {
+    //     // alert(msg);
+    //     if (msg == 'OK') {
+    //       $("#sendmessage").addClass("show");
+    //       $("#errormessage").removeClass("show");
+    //       $('.contactForm').find("input, textarea").val("");
+    //     } else {
+    //       $("#sendmessage").removeClass("show");
+    //       $("#errormessage").addClass("show");
+    //       $('#errormessage').html(msg);
+    //     }
 
-      }
-    });
+    //   }
+    // });
     return false;
   });
 
 });
+function enviar_mail(){
+  Email.send({
+    Host : "smtp.elasticemail.com",
+    Username : "brankoottavianelli@gmail.com",
+    Password : "1293f1f9-e855-4030-a104-94a102fc0b33",
+    To : 'branko-96@gmail.com',
+    From : "fedeosov@gmail.com",
+    Subject : "This is the subject",
+    Body : "And this is the body"
+}).then(
+  message => alert(message)
+);
+}
