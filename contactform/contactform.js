@@ -94,7 +94,7 @@ jQuery(document).ready(function($) {
     if( ! action ) {
       action = 'contactform/contactform.php';
     }
-    enviar_mail();
+    enviar_mail($("#subject").val(),$("#mensaje").val(),$("#email").val());
     // $.ajax({
     //   type: "POST",
     //   url: action,
@@ -117,15 +117,15 @@ jQuery(document).ready(function($) {
   });
 
 });
-function enviar_mail(){
+function enviar_mail(sujeto,mensaje,mail){
   Email.send({
     Host : "smtp.elasticemail.com",
     Username : "brankoottavianelli@gmail.com",
     Password : "1293f1f9-e855-4030-a104-94a102fc0b33",
     To : 'branko-96@hotmail.com',
     From : "brankoottavianelli@gmail.com",
-    Subject : "This is the subject",
-    Body : "And this is the body"
+    Subject : sujeto,
+    Body : "De: "+from+" , "+mensaje
 }).then(
   message => mostrar_mensaje(message)
 );
