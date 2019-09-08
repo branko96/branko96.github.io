@@ -122,8 +122,8 @@ function enviar_mail(){
     Host : "smtp.elasticemail.com",
     Username : "brankoottavianelli@gmail.com",
     Password : "1293f1f9-e855-4030-a104-94a102fc0b33",
-    To : 'branko-96@gmail.com',
-    From : "fedeosov@gmail.com",
+    To : 'branko-96@hotmail.com',
+    From : "brankoottavianelli@gmail.com",
     Subject : "This is the subject",
     Body : "And this is the body"
 }).then(
