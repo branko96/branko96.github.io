@@ -1,40 +1,46 @@
 import type { Content } from '@/content';
-import { SectionHead } from './SectionHead';
+import { PhoneChat } from './PhoneChat';
 
+/** Mobile: el teléfono fijo a un lado y las apps como lista editorial, no como grilla de tarjetas. */
 export function Mobile({ mobile }: { mobile: Content['mobile'] }) {
   return (
-    <section id="mobile" data-backdrop="0.6" aria-labelledby="mobile-title" className="section-py">
-      <div className="shell">
-        <SectionHead id="mobile-title" eyebrow={mobile.eyebrow} title={mobile.title} intro={mobile.intro} />
-        <ul className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-          {mobile.apps.map((app, i) => (
-            <li
-              key={app.name}
-              data-reveal
-              style={{ '--d': `${(i % 3) * 80}ms` } as React.CSSProperties}
-            >
-              <article data-tilt data-glow className="flex h-full flex-col rounded-[18px] border border-line bg-raised/40 p-6 md:p-7">
-                <p className="text-xs uppercase tracking-[0.12em] text-muted">{app.context}</p>
-                <h3 className="mt-3 text-2xl font-semibold tracking-tight">{app.name}</h3>
-                {app.stat && <p className="mt-1 font-serif text-lg italic text-accent">{app.stat}</p>}
-                <ul className="mt-4 space-y-2.5">
-                  {app.points.map((p) => (
-                    <li key={p} className="text-[0.95rem] leading-relaxed text-ink-dim">
-                      {p}
-                    </li>
-                  ))}
-                </ul>
-                <ul className="mt-auto flex flex-wrap gap-1.5 pt-6" aria-label="Stack">
-                  {app.stack.map((t) => (
-                    <li key={t} className="rounded-full border border-line px-2.5 py-1 font-mono text-[0.7rem] text-ink-dim">
-                      {t}
-                    </li>
-                  ))}
-                </ul>
-              </article>
+    <section id="mobile" aria-labelledby="mobile-title" className="section-py">
+      <div className="shell grid gap-14 lg:grid-cols-12">
+        <div className="lg:col-span-5">
+          <div className="lg:sticky lg:top-24">
+            <h2 id="mobile-title" data-reveal className="display text-[clamp(2.2rem,4vw,3.4rem)]">
+              {mobile.title}
+            </h2>
+            <p data-reveal style={{ '--d': '90ms' } as React.CSSProperties} className="mt-6 max-w-[42ch] text-lg text-ink-dim">
+              {mobile.intro}
+            </p>
+            <div data-reveal style={{ '--d': '160ms' } as React.CSSProperties} className="mt-12">
+              <PhoneChat phone={mobile.phone} />
+            </div>
+          </div>
+        </div>
+
+        <ol className="lg:col-span-7">
+          {mobile.apps.map((app) => (
+            <li key={app.name} data-reveal className="group py-8 first:pt-0 md:py-10">
+              <h3 className="display text-[clamp(1.9rem,3.6vw,3rem)] transition-colors duration-300 group-hover:text-accent">
+                {app.name}
+              </h3>
+              <p className="mt-2 text-lg">
+                {app.stat && <span className="font-bold text-accent">{app.stat}. </span>}
+                <span className="text-ink-dim">{app.context}</span>
+              </p>
+              <div className="mt-4 space-y-2.5">
+                {app.points.map((p) => (
+                  <p key={p} className="max-w-[58ch] leading-relaxed text-ink-dim">
+                    {p}
+                  </p>
+                ))}
+              </div>
+              <p className="mt-4 text-sm font-semibold text-ink">{app.stack.join(' · ')}</p>
             </li>
           ))}
-        </ul>
+        </ol>
       </div>
     </section>
   );

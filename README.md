@@ -6,8 +6,17 @@ Portfolio of Branko Ottavianelli, Senior React Native & AI Engineer. One page, E
 
 - Next.js 15 static export (`output: 'export'`), React 19, TypeScript 6
 - Tailwind CSS v4 (`@theme`, no config file) and `motion`
-- Effects ported from web-quality-kit (`fx/`): WebGL gradient backdrop, BO particle monogram, magnetic CTAs, text reveal, `data-reveal`/`data-glow`/`data-tilt`
-- Visual source of truth: [`DESIGN.md`](DESIGN.md)
+- Identity "Cobalt": Archivo (width axis) + JetBrains Mono for logs only, drenched cobalt fields, no glows or gradients
+- Live pieces: a mergeable pull request (hero), a breakable agent run (loop), a bot chat on a phone, a scroll-drawn git branch, a time-zone overlap clock
+- Visual source of truth: [`DESIGN.md`](DESIGN.md) in the [Google DESIGN.md format](https://github.com/google-labs-code/design.md)
+- Palette lab: open any page with `?lab` to try the six palettes in `lib/palettes.ts` live (`[` `]` cycle, `L` light/dark). Visitors always see `DEFAULT_PALETTE`.
+
+## Quality gates
+
+```bash
+node ~/.claude/skills/taste-skill/scripts/lint.mjs components app content   # 0 FAIL
+node ~/.claude/skills/taste-skill/scripts/inspect.mjs http://localhost:4173/en/
+```
 
 ## Commands
 

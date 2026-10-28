@@ -17,7 +17,7 @@ export function LangSwitch({ lang, label }: { lang: Lang; label: string }) {
         e.preventDefault();
         window.location.assign(href + window.location.hash);
       }}
-      className="grid h-11 min-w-11 place-items-center rounded-full px-2 font-mono text-xs uppercase tracking-[0.12em] text-ink-dim transition-colors duration-150 ease-[var(--ease-micro)] hover:text-ink"
+      className="grid h-11 min-w-11 place-items-center rounded-full px-2 text-sm font-semibold uppercase text-ink-dim transition-colors duration-150 ease-[var(--ease-micro)] hover:text-ink"
     >
       {other}
     </a>

@@ -11,9 +11,9 @@ export const es: Content = {
     links: [
       { href: '#loop', label: 'Loop' },
       { href: '#craft', label: 'Oficio' },
+      { href: '#hire', label: 'Trabajemos' },
       { href: '#mobile', label: 'Mobile' },
       { href: '#experience', label: 'Experiencia' },
-      { href: '#contact', label: 'Contacto' },
     ],
     cv: 'CV',
     themeLight: 'Cambiar a tema claro',
@@ -24,23 +24,34 @@ export const es: Content = {
     langLabel: 'Read in English',
   },
   hero: {
-    eyebrow: 'Senior React Native & AI Engineer · Bahía Blanca, AR · UTC−3',
-    title: ['Construyo el *harness*', 'que deja a los agentes entregar.'],
-    lead: 'Siete años publicando apps React Native en App Store y Google Play. Hoy diseño loops de agentes que llevan un issue de GitHub a un pull request revisado y testeado por su cuenta. El único paso que queda en manos de una persona es el merge.',
-    ctaPrimary: 'Ver el loop',
+    title: ['Construyo el harness', 'que deja a los agentes entregar.'],
+    lead: 'Soy Branko, ingeniero React Native e IA senior en Argentina. Hace siete años publico apps en las dos tiendas; hoy diseño los loops de agentes que convierten un issue de GitHub en un pull request revisado y testeado. Una persona solo mergea.',
+    proof: 'Más de 450 commits, 90 pull requests mergeados y ~300 tests entraron a mi propio runner en siete semanas.',
+    ctaPrimary: 'Ver una corrida',
     ctaSecondary: 'Descargar CV',
-    available: 'Remoto · trabajando con equipos de EE. UU., Canadá y Europa desde 2021',
+    pr: {
+      repo: 'storefront',
+      number: '#112',
+      title: 'Checkout: aplicar cupones al pagar',
+      branch: 'feature/checkout-coupons',
+      checks: [
+        { name: 'Plan', detail: 'schema válido · 11 criterios de aceptación' },
+        { name: 'Gate', detail: 'lint · typecheck · tests · build · secretos' },
+        { name: 'Review', detail: '2 hallazgos · máx. MINOR' },
+        { name: 'End-to-end', detail: '3 specs · AC-1…AC-11 cubiertos' },
+      ],
+      stats: '4 commits del agente · 3 capturas adjuntas',
+      running: 'Corriendo checks…',
+      awaiting: 'Todos los checks pasaron. Falta que una persona mergee.',
+      merge: 'Mergear pull request',
+      merged: 'Mergeado',
+      mergedNote: 'Ese fue el único paso que da una persona en el loop.',
+      note: 'Pull request ilustrativo. Apretá merge: vos sos el gate humano.',
+    },
   },
-  stats: [
-    { value: 450, suffix: '+', label: 'commits al runner de agentes en 7 semanas' },
-    { value: 90, suffix: '+', label: 'pull requests mergeados' },
-    { value: 300, prefix: '~', label: 'tests automatizados que lo cuidan' },
-    { value: 7, label: 'años con React Native' },
-    { value: 1, label: 'gate humano: el merge' },
-  ],
+  marquee: ['Claude Code', 'Codex', 'LangGraph', 'OpenSpec', 'Playwright', 'React Native', 'Expo', 'Next.js', 'NestJS', 'TypeScript', 'Bitrise', 'fastlane', 'Solidity', 'Telegram Bot API'],
   loop: {
-    eyebrow: 'El loop',
-    title: 'Del issue al pull request, con un solo gate humano',
+    title: 'Entra un issue, sale un PR',
     intro:
       'Un runner determinístico maneja cada etapa. El modelo solo escribe código: la orquestación no gasta tokens y la caída de un proveedor no frena una feature. Scrolleá una corrida.',
     runLabel: 'corrida de feature',
@@ -49,6 +60,8 @@ export const es: Content = {
     guardrailLabel: 'Guardrail',
     failureLabel: 'Si falla',
     humanBadge: 'Gate humano',
+    scenarioLabel: 'Romper algo',
+    cleanRun: 'Corrida limpia',
     stages: [
       {
         id: 'issue',
@@ -133,6 +146,43 @@ export const es: Content = {
         human: true,
       },
     ],
+    scenarios: [
+      {
+        id: 'quota',
+        label: 'Un writer se queda sin cuota',
+        stage: 'write',
+        log: [
+          { text: 'UNIT_DONE unit=1/4 writer=claude', tone: 'ok' },
+          { text: 'WRITER_EXHAUSTED writer=claude window=5h', tone: 'crit' },
+          { text: 'WRITER_HANDOFF from=claude to=alt', tone: 'warn' },
+          { text: 'UNIT_DONE unit=2/4 writer=alt', tone: 'ok' },
+        ],
+        recovered: 'El siguiente writer de la cadena toma la unidad. No se despierta a nadie.',
+      },
+      {
+        id: 'typecheck',
+        label: 'El typecheck da rojo',
+        stage: 'gate',
+        log: [
+          { text: 'GATE_FAIL typecheck src/checkout/coupon.ts:42', tone: 'crit' },
+          { text: 'TRIAGE model=free verdict=fixable', tone: 'info' },
+          { text: 'GATE_RETRY reason=typecheck attempt=1/1', tone: 'warn' },
+          { text: 'GATE_PASS lint typecheck test build format secrets', tone: 'ok' },
+        ],
+        recovered: 'Un modelo gratuito lee el log primero; el writer tiene exactamente un reintento.',
+      },
+      {
+        id: 'blocker',
+        label: 'El review encuentra un bloqueante',
+        stage: 'review',
+        log: [
+          { text: 'REVIEW_FINDING severity=BLOCKER api/coupon.ts:88', tone: 'crit' },
+          { text: 'GATE_RETRY reason=review_findings attempt=1/1', tone: 'warn' },
+          { text: 'REVIEW_PASS tier=full findings=1 max=MINOR', tone: 'ok' },
+        ],
+        recovered: 'Los hallazgos graves vuelven al writer una vez. Si vuelve a fallar, la unidad se bloquea.',
+      },
+    ],
     alwaysOn: {
       title: 'Siempre encendido, debajo de cada corrida',
       items: [
@@ -145,9 +195,8 @@ export const es: Content = {
     },
   },
   craft: {
-    eyebrow: 'Oficio del harness',
-    title: 'Lo que hace que un loop de agentes se pueda dejar solo',
-    intro: 'El loop es la parte visible. Estas son las decisiones que lo sostienen.',
+    title: 'Hecho para correr sin supervisión',
+    intro: 'El loop es la parte visible. Estas son las decisiones que permiten dejarlo solo.',
     evidenceLabel: 'Evidencia',
     open: 'Expandir',
     close: 'Contraer',
@@ -242,9 +291,45 @@ export const es: Content = {
       },
     ],
   },
+  hire: {
+    title: 'Tres formas de ayudar a tu equipo',
+    intro: 'Para un rol full-time o un proyecto acotado, remoto desde Argentina.',
+    offers: [
+      {
+        title: 'Un harness de agentes en tu repo',
+        body: 'Armo el loop dentro del repositorio de tu equipo, con tu gente mergeando: skills y agentes por rol, quality gates, review con IA, tests end-to-end y tracking de costos.',
+        points: [
+          'Skills y subagentes para UX, producto, frontend y QA',
+          'Planes con criterios de aceptación, review IA y gates de Playwright',
+          'Una cuenta de bot con mínimo privilegio y reportes de tokens y costos',
+          'Onboarding para que todo el equipo lo use todos los días',
+        ],
+      },
+      {
+        title: 'Tu app React Native, entregada',
+        body: 'Desde una app Expo nueva hasta estabilizar una que ya está en producción: módulos nativos, push, releases en las dos tiendas y accesibilidad bien hecha.',
+        points: [
+          'Expo o React Native bare, en TypeScript',
+          'Módulos nativos, push notifications, flujos de KYC y OCR',
+          'CI/CD con Bitrise o fastlane, monorepos',
+          'Soporte de VoiceOver y TalkBack desde el día uno',
+        ],
+      },
+      {
+        title: 'Agentes de guardia',
+        body: 'Automatización que sigue trabajando cuando nadie mira, y te avisa en el teléfono.',
+        points: [
+          'Bots de Telegram sobre máquinas de estado de LangGraph',
+          'Runners programados que se autorreparan, con chequeos de cuota y canary',
+          'Ruteo multi-modelo con reglas baratas antes del LLM',
+          'Dashboards de tokens, costos y corridas fallidas',
+        ],
+      },
+    ],
+    cta: 'Contame de tu proyecto',
+  },
   skills: {
-    eyebrow: 'Skills que escribí',
-    title: 'Una cadena de skills de Claude Code para calidad web',
+    title: 'Skills de Claude Code que escribí',
     intro: 'Cada skill hace un trabajo y le pasa la posta a la siguiente, así un agente lleva una landing del diagnóstico a la sección reconstruida sin adivinar.',
     chain: [
       { name: 'audit-landing', does: 'Diagnostica una landing en seis pasadas (casos, H1, jerarquía de CTAs, email de dominio, confianza, CSS) y devuelve hallazgos por severidad con archivo y línea.' },
@@ -252,13 +337,23 @@ export const es: Content = {
       { name: 'rebuild-section', does: 'Reconstruye una sección sobre los tokens: Server Components primero, accesible, verificada con capturas en mobile y con movimiento reducido.' },
       { name: 'fx-effects', does: 'Un catálogo de efectos sin framework (fondo shader, partículas, magnetic, revelado de texto) con destroy(), soporte de movimiento reducido y presupuesto de frames.' },
     ],
-    note: 'Este sitio está hecho con ellas: tokens, CTA magnético, fondo shader, monograma de partículas y revelados salen de la cadena.',
+    note: 'Este sitio pasó por la cadena: auditado, llevado a tokens, reconstruido sección por sección y después revisado con las reglas de Impeccable y Taste.',
     credit: 'La skill motion-design del mismo kit es una adaptación de LottieFiles (MIT).',
   },
   mobile: {
-    eyebrow: 'Mobile',
-    title: 'Siete años de React Native en producción',
+    title: 'React Native desde 2019',
     intro: 'Antes de los agentes, y junto con ellos: apps en las dos tiendas, módulos nativos, pipelines de release y accesibilidad bien hecha.',
+    phone: {
+      chat: 'harness bot',
+      status: 'en línea',
+      messages: [
+        { title: 'Reporte de corrida', time: '09:20', lines: ['feature/checkout-coupons: PR abierto', '4 unidades · gate, review y e2e pasaron'] },
+        { title: 'Alerta de cuota', time: '11:05', lines: ['Ventana de Claude al 82%.', 'Los writers rotan al 95%.'] },
+        { title: 'Canary', time: '12:00', lines: ['Respondieron 5 de 5 modelos.', 'Cadena de fallback sana.'] },
+        { title: 'Self-heal', time: '14:40', lines: ['Liberé un lock viejo en el proyecto 2.', 'Ningún gate se tocó.'] },
+      ],
+      caption: 'Donde se cruzan mis dos carreras: los agentes reportan a un teléfono. Mensajes ilustrativos.',
+    },
     apps: [
       {
         name: 'YoCripto',
@@ -314,7 +409,6 @@ export const es: Content = {
     ],
   },
   experience: {
-    eyebrow: 'Experiencia',
     title: 'Dónde trabajé',
     roles: [
       {
@@ -415,8 +509,7 @@ export const es: Content = {
     },
   },
   contact: {
-    eyebrow: 'Contacto',
-    title: 'Hablemos de tu harness, o de tu app',
+    title: 'Construyamos el tuyo.',
     text: 'El email es la forma más rápida de contactarme. Trabajo remoto desde Argentina (UTC−3), con buena superposición con horarios de EE. UU. y Europa.',
     email: 'brankoottavianelli@gmail.com',
     links: [
@@ -424,6 +517,24 @@ export const es: Content = {
       { label: 'GitHub', href: 'https://github.com/branko96' },
     ],
     cv: 'Descargar CV (PDF)',
-    footer: 'Hecho con Next.js y mis propias skills de Claude Code.',
+    overlap: {
+      title: 'Nuestros horarios',
+      here: 'Bahía Blanca',
+      you: 'Vos',
+      hours: '{h} horas laborales en común cada día hábil',
+      none: 'Poco solapamiento: muevo mi día para coincidir unas horas con el tuyo',
+      legend: 'Jornada de 9:00 a 18:00 en cada zona horaria',
+      fallback: 'UTC−3. Las mañanas coinciden con la costa este de EE. UU. y las tardes con Europa.',
+    },
+    footer: {
+      tagline: 'Ingeniero React Native e IA senior. Bahía Blanca, Argentina.',
+      onPage: 'En esta página',
+      elsewhere: 'En otros lados',
+      files: 'Archivos',
+      cv: 'CV (PDF)',
+      otherLang: 'Read in English',
+      top: 'Volver arriba',
+      colophon: 'Compuesto en Archivo. Hecho con Next.js, mis propias skills de Claude Code y revisado con Impeccable y Taste.',
+    },
   },
 };

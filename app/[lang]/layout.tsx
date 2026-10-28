@@ -5,6 +5,8 @@ import { getContent, isLang, LANGS } from '@/content';
 import { fontVariables } from '@/lib/fonts';
 import { CV_PATH, EMAIL, SITE_NAME, SITE_URL } from '@/lib/site';
 import { THEME_SCRIPT } from '@/lib/theme-script';
+import { PaletteStyles } from '@/components/PaletteStyles';
+import { DEFAULT_PALETTE } from '@/lib/palettes';
 
 export function generateStaticParams() {
   return LANGS.map((lang) => ({ lang }));
@@ -64,8 +66,9 @@ export default async function LangLayout({
   const { lang } = await params;
   if (!isLang(lang)) notFound();
   return (
-    <html lang={lang} data-theme="dark" className={fontVariables} suppressHydrationWarning>
+    <html lang={lang} data-theme="dark" data-palette={DEFAULT_PALETTE} className={fontVariables} suppressHydrationWarning>
       <head>
+        <PaletteStyles />
         <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
       </head>
       <body>

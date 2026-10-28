@@ -1,27 +1,42 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
-import type { Content, LogTone } from '@/content';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import type { Content, LogLine, LogTone } from '@/content';
 import { cn } from '@/lib/cn';
+
+// El terminal es un fragmento de interfaz real: colores propios, fijos en cualquier paleta
+// Logs reales del runner: la mono y la sombra pertenecen al fragmento (data-ui)
+const TERMINAL = 'overflow-hidden rounded-2xl bg-[var(--term-bg)] shadow-[0_40px_100px_-30px_rgb(0_0_0/0.6)]'; // taste-skill-ignore
+const TERMINAL_BAR = 'flex items-center justify-between px-5 py-3 font-mono text-[0.72rem] text-[#ecebf2]/70'; // taste-skill-ignore
+const TERMINAL_BODY = 'h-[15rem] overflow-hidden px-5 pb-4 font-mono text-[0.82rem] leading-6 text-[#ecebf2]'; // taste-skill-ignore
+const LOG_BLOCK = 'overflow-x-auto rounded-xl bg-[var(--term-bg)] px-4 py-3 font-mono text-[0.78rem] leading-6 text-[#ecebf2]'; // taste-skill-ignore
 
 const TONE: Record<LogTone, string> = {
   ok: 'text-[#7ee2b8]',
   warn: 'text-[#f5c76b]',
-  info: 'text-[#c9b8ff]',
+  info: 'text-[#d9deef]',
+  crit: 'text-[#ff8a9a]',
 };
 
 /**
- * La orquestación fuerte de la página (DESIGN.md §4). En escritorio con movimiento
- * la sección es un stage sticky: el scroll avanza una corrida y el terminal escribe
- * el log de cada etapa. En mobile, sin JS o con movimiento reducido es una lista
- * ordenada estática con todo el contenido visible.
+ * La orquestación fuerte de la página. En escritorio con movimiento es un stage
+ * sticky: el scroll avanza una corrida y el terminal escribe el log de cada etapa.
+ * "Romper algo" reemplaza el log de una etapa por una falla y su recuperación.
+ * En mobile, sin JS o con movimiento reducido es una lista ordenada estática.
  */
 export function Loop({ loop }: { loop: Content['loop'] }) {
   const trackRef = useRef<HTMLDivElement>(null);
   const [live, setLive] = useState(false);
   const [active, setActive] = useState(0);
   const [progress, setProgress] = useState(0);
+  const [scenarioId, setScenarioId] = useState<string | null>(null);
   const n = loop.stages.length;
+
+  const scenario = loop.scenarios.find((s) => s.id === scenarioId) ?? null;
+  const logs = useMemo(
+    () => loop.stages.map((s): LogLine[] => (scenario && scenario.stage === s.id ? scenario.log : s.log)),
+    [loop.stages, scenario]
+  );
 
   useEffect(() => {
     const mq = window.matchMedia('(min-width: 1024px) and (prefers-reduced-motion: no-preference)');
@@ -59,163 +74,209 @@ export function Loop({ loop }: { loop: Content['loop'] }) {
   const goTo = (i: number) => {
     const el = trackRef.current;
     if (!el) return;
+    if (!live) {
+      document.getElementById(`stage-${loop.stages[i].id}`)?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
     const top = el.getBoundingClientRect().top + window.scrollY;
     const travel = el.offsetHeight - window.innerHeight;
     window.scrollTo({ top: top + ((i + 0.5) / n) * travel, behavior: 'smooth' });
   };
 
+  const pick = (id: string | null) => {
+    setScenarioId(id);
+    const target = loop.scenarios.find((s) => s.id === id);
+    if (target) goTo(loop.stages.findIndex((s) => s.id === target.stage));
+  };
+
   const stage = loop.stages[active];
 
-  return (
-    <section id="loop" data-backdrop="0.55" aria-labelledby="loop-title" className="section-py">
-      <div className="shell">
-        <header className="max-w-3xl" data-reveal>
-          <p className="eyebrow text-accent">{loop.eyebrow}</p>
-          <h2 id="loop-title" className="mt-4 text-[clamp(2.1rem,4.6vw,3.6rem)] font-semibold leading-none tracking-[-0.03em]">
-            {loop.title}
-          </h2>
-          <p className="mt-6 max-w-[60ch] text-ink-dim">{loop.intro}</p>
-        </header>
-      </div>
-
-      <div ref={trackRef} className="relative mt-12 lg:mt-4" style={live ? { height: `${n * 62 + 40}vh` } : undefined}>
-        <div className={cn('shell', live && 'sticky top-0 flex h-dvh items-center')}>
-          <div className={cn('w-full', live && 'grid grid-cols-[minmax(0,5fr)_minmax(0,7fr)] items-center gap-12')}>
-            {/* La lista es la fuente de verdad (lectores de pantalla, mobile, sin JS) */}
-            <ol className="relative">
-              {live && (
-                <span aria-hidden="true" className="absolute bottom-3 left-[7px] top-3 w-px bg-line">
-                  <span
-                    className="absolute inset-x-0 top-0 origin-top bg-accent"
-                    style={{ height: '100%', transform: `scaleY(${progress})` }}
-                  />
-                </span>
+  // Romper algo: el "live thing" del loop. En escritorio vive dentro del panel sticky.
+  const picker = (
+    <>
+      <div className="flex flex-wrap items-center gap-2" role="group" aria-label={loop.scenarioLabel}>
+        <span className="mr-2 font-bold">{loop.scenarioLabel}</span>
+        {[{ id: null as string | null, label: loop.cleanRun }, ...loop.scenarios].map((s) => {
+          const on = scenarioId === s.id;
+          return (
+            <button
+              key={s.id ?? 'clean'}
+              type="button"
+              aria-pressed={on}
+              onClick={() => pick(s.id)}
+              className={cn(
+                'h-11 rounded-full px-4 text-sm font-semibold transition-[background-color,color,transform] duration-150 ease-[var(--ease-micro)] active:scale-[0.97]',
+                on ? 'bg-on-field text-field' : 'bg-on-field/12 text-on-field hover:bg-on-field/20'
               )}
-              {loop.stages.map((s, i) => {
-                const isActive = live && i === active;
-                const done = live && i < active;
-                return (
-                  <li
-                    key={s.id}
-                    data-reveal={live ? undefined : ''}
-                    className={cn(
-                      'relative pl-8',
-                      live ? 'py-2.5' : 'border-t border-line py-7 first:border-t-0 lg:grid lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-12 lg:pl-0'
-                    )}
-                  >
-                    <span
-                      aria-hidden="true"
-                      className={cn(
-                        'absolute left-0 top-[1.15rem] size-[15px] rounded-full border-2 transition-colors duration-300',
-                        live ? 'top-[1.05rem]' : 'top-[2.2rem] lg:hidden',
-                        isActive || done || !live ? 'border-accent' : 'border-line-strong',
-                        isActive && 'bg-accent',
-                        s.human && !live && 'bg-accent'
-                      )}
-                    />
-                    <div>
-                      <h3 className="flex items-center gap-3 text-2xl font-semibold tracking-tight">
-                        {live ? (
-                          <button
-                            type="button"
-                            onClick={() => goTo(i)}
-                            aria-current={isActive ? 'step' : undefined}
-                            className={cn(
-                              'text-left transition-colors duration-300',
-                              isActive ? 'text-ink' : 'text-muted hover:text-ink-dim'
-                            )}
-                          >
-                            {s.name}
-                          </button>
-                        ) : (
-                          s.name
-                        )}
-                        {s.human && (
-                          <span className="rounded-full border border-accent px-2.5 py-0.5 font-mono text-[0.68rem] font-medium uppercase tracking-[0.12em] text-accent">
-                            {loop.humanBadge}
-                          </span>
-                        )}
-                      </h3>
-                      <p
-                        className={cn(
-                          'mt-1.5 max-w-[46ch] text-[0.97rem] leading-relaxed text-ink-dim',
-                          live && !isActive && 'sr-only'
-                        )}
-                      >
-                        {s.summary}
-                      </p>
-                    </div>
-                    {/* Detalle estático: en modo live lo muestra el panel */}
-                    <div className={cn(live && 'sr-only', 'mt-5 lg:mt-0')}>
-                      <pre className="overflow-x-auto rounded-xl bg-[var(--term-bg)] px-4 py-3 font-mono text-[0.78rem] leading-6 text-[#e9ddff]">
-                        {s.log.map((l) => (
-                          <span key={l.text} className={cn('block', TONE[l.tone])}>
-                            {l.text}
-                          </span>
-                        ))}
-                      </pre>
-                      <StageFacts loop={loop} stage={s} className="mt-4" />
-                    </div>
-                  </li>
-                );
-              })}
-            </ol>
+            >
+              {s.label}
+            </button>
+          );
+        })}
+      </div>
+      <p className="mt-3 min-h-[1.6em] max-w-[60ch] text-ink" role="status">
+        {scenario && (
+          <span key={scenario.id} className="pop-in inline-block">
+            {scenario.recovered}
+          </span>
+        )}
+      </p>
+    </>
+  );
 
-            {live && (
-              <div aria-hidden="true" className="min-w-0">
-                <div className="overflow-hidden rounded-[18px] border border-line-strong bg-[var(--term-bg)] shadow-[0_40px_120px_-40px_rgb(95_32_197/0.55)] backdrop-blur-md">
-                  <div className="flex items-center justify-between border-b border-[rgb(233_221_255/0.12)] px-5 py-3 font-mono text-[0.72rem] text-[rgb(233_221_255/0.6)]">
-                    <span>
-                      {loop.runLabel} · feature/checkout-coupons
-                    </span>
-                    <span className="flex items-center gap-2">
-                      <span className={cn('size-1.5 rounded-full', stage.human ? 'bg-[#f5c76b]' : 'animate-pulse bg-[#7ee2b8]')} />
-                      {stage.id}
-                    </span>
-                  </div>
-                  <div className="h-[13.5rem] overflow-hidden px-5 py-4 font-mono text-[0.8rem] leading-6 text-[#e9ddff]">
-                    <div className="flex h-full flex-col justify-end">
-                      {loop.stages.slice(0, active + 1).flatMap((s, si) =>
-                        s.log.map((l, li) => (
-                          <div
-                            key={`${s.id}-${li}`}
-                            className={cn('flex gap-3 whitespace-nowrap', si === active && 'loop-line')}
-                            style={si === active ? { animationDelay: `${li * 260}ms` } : undefined}
-                          >
-                            <span className="w-14 shrink-0 text-[rgb(233_221_255/0.62)]">{s.id}</span>
-                            <span className={TONE[l.tone]}>{l.text}</span>
-                          </div>
-                        ))
+  return (
+    <section id="loop" aria-labelledby="loop-title" className="px-2 md:px-4">
+      <div data-wipe className="field section-py rounded-[28px]">
+        <div className="shell">
+          <div className="grid gap-8 lg:grid-cols-12">
+            <h2 id="loop-title" data-reveal className="display text-[clamp(2.3rem,5vw,4.4rem)] lg:col-span-7">
+              {loop.title}
+            </h2>
+            <p
+              data-reveal
+              style={{ '--d': '90ms' } as React.CSSProperties}
+              className="max-w-[52ch] text-lg text-ink lg:col-span-5 lg:self-end"
+            >
+              {loop.intro}
+            </p>
+          </div>
+
+          {!live && (
+            <div data-reveal style={{ '--d': '160ms' } as React.CSSProperties} className="mt-12">
+              {picker}
+            </div>
+          )}
+        </div>
+
+        <div ref={trackRef} className="relative mt-10" style={live ? { height: `${n * 60 + 40}vh` } : undefined}>
+          <div className={cn('shell', live && 'sticky top-0 flex h-dvh items-center')}>
+            <div className={cn('w-full', live && 'grid grid-cols-[minmax(0,4fr)_minmax(0,8fr)] items-center gap-12')}>
+              <ol className="relative">
+                {live && (
+                  <span aria-hidden="true" className="absolute bottom-3 left-[7px] top-3 w-0.5 rounded bg-on-field/20">
+                    <span className="absolute inset-0 origin-top rounded bg-on-field" style={{ transform: `scaleY(${progress})` }} />
+                  </span>
+                )}
+                {loop.stages.map((s, i) => {
+                  const isActive = live && i === active;
+                  const done = live && i < active;
+                  const broken = scenario?.stage === s.id;
+                  return (
+                    <li
+                      key={s.id}
+                      id={`stage-${s.id}`}
+                      data-reveal={live ? undefined : ''}
+                      className={cn(
+                        'relative pl-8',
+                        live ? 'py-2' : 'py-7 lg:grid lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-12 lg:pl-0'
                       )}
-                      <div className="loop-cursor text-[rgb(233_221_255/0.62)]">$</div>
+                    >
+                      <span
+                        aria-hidden="true"
+                        className={cn(
+                          'absolute left-0 size-4 rounded-full border-2 transition-colors duration-300',
+                          live ? 'top-[0.95rem]' : 'top-[2.25rem] lg:hidden',
+                          isActive || done || !live ? 'border-on-field' : 'border-on-field/35',
+                          (isActive || s.human) && 'bg-on-field',
+                          broken && 'border-[#ff8a9a]'
+                        )}
+                      />
+                      <div>
+                        <h3 className="flex items-center gap-3 text-2xl font-bold tracking-tight">
+                          {live ? (
+                            <button
+                              type="button"
+                              onClick={() => goTo(i)}
+                              aria-current={isActive ? 'step' : undefined}
+                              className={cn(
+                                'text-left transition-opacity duration-300',
+                                isActive ? 'opacity-100' : 'opacity-55 hover:opacity-80'
+                              )}
+                            >
+                              {s.name}
+                            </button>
+                          ) : (
+                            s.name
+                          )}
+                          {s.human && (
+                            <span className="rounded-full bg-on-field px-2.5 py-0.5 text-xs font-bold text-field">
+                              {loop.humanBadge}
+                            </span>
+                          )}
+                        </h3>
+                        <p className={cn('mt-1.5 max-w-[46ch] leading-relaxed text-ink-dim', live && !isActive && 'sr-only')}>
+                          {s.summary}
+                        </p>
+                      </div>
+                      {/* Detalle estático: en modo live lo muestra el panel */}
+                      <div className={cn(live && 'sr-only', 'mt-5 lg:mt-0')}>
+                        <pre data-ui className={LOG_BLOCK}>
+                          {logs[i].map((l) => (
+                            <span key={l.text} className={cn('block', TONE[l.tone])}>
+                              {l.text}
+                            </span>
+                          ))}
+                        </pre>
+                        <StageFacts loop={loop} stage={s} className="mt-4" />
+                      </div>
+                    </li>
+                  );
+                })}
+              </ol>
+
+              {live && (
+                <div className="min-w-0">
+                  <div className="mb-5">{picker}</div>
+                  <div aria-hidden="true" data-ui className={TERMINAL}>
+                    <div className={TERMINAL_BAR}>
+                      <span>{loop.runLabel} · feature/checkout-coupons</span>
+                      <span className="flex items-center gap-2">
+                        <span className={cn('size-1.5 rounded-full', stage.human ? 'bg-[#f5c76b]' : 'bg-[#7ee2b8]')} />
+                        {stage.id}
+                      </span>
                     </div>
+                    <div className={TERMINAL_BODY}>
+                      <div className="flex h-full flex-col justify-end">
+                        {loop.stages.slice(0, active + 1).flatMap((s, si) =>
+                          logs[si].map((l, li) => (
+                            <div
+                              key={`${s.id}-${scenarioId}-${li}`}
+                              className={cn('flex gap-3 whitespace-nowrap', si === active && 'loop-line')}
+                              style={si === active ? { animationDelay: `${li * 240}ms` } : undefined}
+                            >
+                              <span className="w-14 shrink-0 text-[#ecebf2]/55">{s.id}</span>
+                              <span className={TONE[l.tone]}>{l.text}</span>
+                            </div>
+                          ))
+                        )}
+                        <div className="loop-cursor text-[#ecebf2]/55">$</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div aria-hidden="true">
+                    <StageFacts key={stage.id} loop={loop} stage={stage} className="loop-line mt-7" />
                   </div>
                 </div>
-                <StageFacts key={stage.id} loop={loop} stage={stage} className="loop-line mt-6" />
-                <p className="mt-5 text-xs text-muted">{loop.runNote}</p>
-              </div>
-            )}
+              )}
+            </div>
           </div>
         </div>
-      </div>
 
-      {!live && (
         <div className="shell">
-          <p className="mt-2 text-xs text-muted">{loop.runNote}</p>
-        </div>
-      )}
-
-      <div className="shell mt-16">
-        <div data-reveal className="rounded-[18px] border border-line p-6 md:p-8">
-          <h3 className="eyebrow text-accent">{loop.alwaysOn.title}</h3>
-          <ul className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-5">
-            {loop.alwaysOn.items.map((item) => (
-              <li key={item.name}>
-                <p className="font-display text-lg font-semibold tracking-tight">{item.name}</p>
-                <p className="mt-1.5 text-sm leading-relaxed text-ink-dim">{item.text}</p>
-              </li>
-            ))}
-          </ul>
+          <p className="mt-6 text-sm text-muted">{loop.runNote}</p>
+          <div className="mt-20">
+            <h3 data-reveal className="text-2xl font-bold tracking-tight">
+              {loop.alwaysOn.title}
+            </h3>
+            <ul className="mt-8 grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-5">
+              {loop.alwaysOn.items.map((item, i) => (
+                <li key={item.name} data-reveal style={{ '--d': `${i * 70}ms` } as React.CSSProperties}>
+                  <p className="text-lg font-bold">{item.name}</p>
+                  <p className="mt-2 leading-relaxed text-ink-dim">{item.text}</p>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </div>
     </section>
@@ -237,11 +298,11 @@ function StageFacts({
     [loop.failureLabel, stage.onFailure],
   ];
   return (
-    <dl className={cn('grid gap-4 sm:grid-cols-3', className)}>
+    <dl className={cn('grid gap-6 sm:grid-cols-3', className)}>
       {facts.map(([label, text]) => (
         <div key={label}>
-          <dt className="font-mono text-[0.7rem] uppercase tracking-[0.14em] text-accent">{label}</dt>
-          <dd className="mt-1.5 text-sm leading-relaxed text-ink-dim">{text}</dd>
+          <dt className="font-bold">{label}</dt>
+          <dd className="mt-1.5 text-[0.95rem] leading-relaxed text-ink-dim">{text}</dd>
         </div>
       ))}
     </dl>

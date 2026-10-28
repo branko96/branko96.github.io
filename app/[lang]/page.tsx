@@ -2,13 +2,16 @@ import { notFound } from 'next/navigation';
 import { Contact } from '@/components/Contact';
 import { Craft } from '@/components/Craft';
 import { Experience } from '@/components/Experience';
+import { Footer } from '@/components/Footer';
+import { BranchRail } from '@/components/fx/BranchRail';
 import { Effects } from '@/components/fx/Effects';
-import { PageBackdrop } from '@/components/fx/PageBackdrop';
 import { Hero } from '@/components/Hero';
+import { Hire } from '@/components/Hire';
 import { Loop } from '@/components/Loop';
+import { Marquee } from '@/components/Marquee';
 import { Mobile } from '@/components/Mobile';
 import { Navbar } from '@/components/Navbar';
-import { ProofStrip } from '@/components/ProofStrip';
+import { PaletteLab } from '@/components/PaletteLab';
 import { SkillsChain } from '@/components/SkillsChain';
 import { getContent, isLang } from '@/content';
 
@@ -19,19 +22,22 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
 
   return (
     <>
-      <PageBackdrop />
       <Effects />
       <Navbar lang={lang} nav={c.nav} />
+      <BranchRail />
       <main id="main">
         <Hero hero={c.hero} />
-        <ProofStrip stats={c.stats} />
+        <Marquee items={c.marquee} label={lang === 'en' ? 'Tools I work with' : 'Herramientas con las que trabajo'} />
         <Loop loop={c.loop} />
         <Craft craft={c.craft} />
+        <Hire hire={c.hire} />
         <SkillsChain skills={c.skills} />
         <Mobile mobile={c.mobile} />
         <Experience experience={c.experience} />
-        <Contact contact={c.contact} />
+        <Contact contact={c.contact} lang={lang} />
       </main>
+      <Footer lang={lang} nav={c.nav} contact={c.contact} />
+      <PaletteLab />
     </>
   );
 }

@@ -19,17 +19,18 @@ export function Craft({ craft }: { craft: Content['craft'] }) {
   }, []);
 
   return (
-    <section id="craft" data-backdrop="0.35" aria-labelledby="craft-title" className="section-py">
-      <div className="shell">
-        <header className="max-w-3xl" data-reveal>
-          <p className="eyebrow text-accent">{craft.eyebrow}</p>
-          <h2 id="craft-title" className="mt-4 text-[clamp(2.1rem,4.6vw,3.6rem)] font-semibold leading-none tracking-[-0.03em]">
+    <section id="craft" aria-labelledby="craft-title" className="section-py">
+      <div className="shell grid gap-12 lg:grid-cols-12">
+        <header className="lg:sticky lg:top-28 lg:col-span-5 lg:self-start">
+          <h2 id="craft-title" data-reveal className="display text-[clamp(2.2rem,4vw,3.4rem)]">
             {craft.title}
           </h2>
-          <p className="mt-6 max-w-[60ch] text-ink-dim">{craft.intro}</p>
+          <p data-reveal style={{ '--d': '90ms' } as React.CSSProperties} className="mt-6 max-w-[44ch] text-lg text-ink-dim">
+            {craft.intro}
+          </p>
         </header>
 
-        <ul className="mt-12 grid items-start gap-x-10 lg:grid-cols-2">
+        <ul className="space-y-2 lg:col-span-7">
           {craft.items.map((item, i) => {
             const isOpen = open === item.id;
             const panelId = `craft-${item.id}`;
@@ -37,8 +38,11 @@ export function Craft({ craft }: { craft: Content['craft'] }) {
               <li
                 key={item.id}
                 data-reveal
-                style={{ '--d': `${(i % 2) * 80}ms` } as React.CSSProperties}
-                className="border-t border-line"
+                style={{ '--d': `${Math.min(i, 3) * 60}ms` } as React.CSSProperties}
+                className={cn(
+                  'rounded-2xl px-5 transition-colors duration-300 ease-[var(--ease-micro)] md:px-7',
+                  isOpen ? 'bg-raised' : 'hover:bg-raised/60'
+                )}
               >
                 <h3>
                   <button
@@ -49,16 +53,14 @@ export function Craft({ craft }: { craft: Content['craft'] }) {
                     className="group flex w-full items-start justify-between gap-6 py-6 text-left"
                   >
                     <span>
-                      <span className="block font-display text-[1.45rem] font-semibold leading-tight tracking-tight">
-                        {item.title}
-                      </span>
-                      <span className="mt-1 block font-serif text-lg italic text-accent">{item.hook}</span>
+                      <span className="block text-[1.45rem] font-bold leading-tight tracking-tight">{item.title}</span>
+                      <span className="mt-1 block text-ink-dim">{item.hook}</span>
                     </span>
                     <span
                       aria-hidden="true"
                       className={cn(
-                        'mt-1 grid size-9 shrink-0 place-items-center rounded-full border border-line-strong text-ink-dim transition-[transform,color,border-color] duration-300 ease-[var(--ease-premium)] group-hover:border-accent group-hover:text-accent',
-                        isOpen && 'rotate-45 border-accent text-accent'
+                        'mt-1 grid size-10 shrink-0 place-items-center rounded-full bg-ground text-ink transition-[transform,background-color,color] duration-300 ease-[var(--ease-premium)] group-hover:bg-accent group-hover:text-accent-ink',
+                        isOpen && 'rotate-45 bg-accent text-accent-ink'
                       )}
                     >
                       <svg viewBox="0 0 16 16" className="size-3.5" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round">
@@ -81,15 +83,13 @@ export function Craft({ craft }: { craft: Content['craft'] }) {
                         <ul className="space-y-3">
                           {item.points.map((p) => (
                             <li key={p} className="relative pl-5 text-[0.98rem] leading-relaxed text-ink-dim">
-                              <span aria-hidden="true" className="absolute left-0 top-[0.7em] h-px w-2.5 bg-accent" />
+                              <span aria-hidden="true" className="absolute left-0 top-[0.62em] size-1.5 rounded-full bg-accent" />
                               {p}
                             </li>
                           ))}
                         </ul>
-                        <p className="mt-5 rounded-xl border border-line px-4 py-3 text-sm text-ink-dim">
-                          <span className="mr-2 font-mono text-[0.7rem] uppercase tracking-[0.14em] text-accent">
-                            {craft.evidenceLabel}
-                          </span>
+                        <p className="mt-5 rounded-xl bg-ground px-4 py-3 text-[0.95rem] text-ink-dim">
+                          <span className="mr-2 font-bold text-ink">{craft.evidenceLabel}.</span>
                           {item.evidence}
                         </p>
                       </div>

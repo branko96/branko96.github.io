@@ -30,7 +30,12 @@ export function Navbar({ lang, nav }: { lang: Lang; nav: Content['nav'] }) {
   }, [isOpen]);
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50 px-3 pt-3 md:px-8 md:pt-4">
+    <header
+      className={cn(
+        'fixed inset-x-0 top-0 z-50 transition-[background-color] duration-300 ease-[var(--ease-micro)]',
+        isScrolled || isOpen ? 'bg-ground' : 'bg-transparent'
+      )}
+    >
       <a
         href="#main"
         className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:rounded-full focus:bg-accent focus:px-4 focus:py-2 focus:text-accent-ink"
@@ -39,16 +44,11 @@ export function Navbar({ lang, nav }: { lang: Lang; nav: Content['nav'] }) {
       </a>
       <nav
         aria-label={lang === 'en' ? 'Main' : 'Principal'}
-        className={cn(
-          'mx-auto flex max-w-6xl items-center justify-between rounded-full border pl-5 pr-1.5 transition-[background-color,border-color,height] duration-500 ease-[var(--ease-premium)]',
-          isScrolled || isOpen
-            ? 'h-14 border-line bg-ground/75 backdrop-blur-xl'
-            : 'h-16 border-transparent bg-transparent'
-        )}
+        className="shell flex h-16 items-center justify-between"
       >
         <a href={`/${lang}/`} className="relative z-10 flex items-center gap-2.5 text-ink" aria-label="Branko Ottavianelli">
           <BOMark className="h-6 text-accent" />
-          <span className="hidden font-display text-[0.95rem] font-semibold tracking-tight sm:inline">
+          <span className="display hidden text-[0.95rem] tracking-[-0.01em] sm:inline">
             Branko Ottavianelli
           </span>
         </a>
@@ -58,7 +58,7 @@ export function Navbar({ lang, nav }: { lang: Lang; nav: Content['nav'] }) {
             <a
               key={link.href}
               href={link.href}
-              className="rounded-full px-3.5 py-2 text-[0.92rem] font-medium text-ink-dim transition-colors duration-150 ease-[var(--ease-micro)] hover:text-ink"
+              className="px-3 py-2 text-[0.95rem] font-medium text-ink-dim transition-colors duration-150 ease-[var(--ease-micro)] hover:text-ink"
             >
               {link.label}
             </a>
@@ -71,7 +71,7 @@ export function Navbar({ lang, nav }: { lang: Lang; nav: Content['nav'] }) {
           <a
             href={CV_PATH}
             download
-            className="ml-1 hidden h-10 items-center rounded-full bg-ink px-5 text-[0.9rem] font-semibold text-ground transition-colors duration-150 ease-[var(--ease-micro)] hover:bg-accent hover:text-accent-ink md:flex"
+            className="ml-2 hidden h-10 items-center rounded-full bg-accent px-5 text-[0.92rem] font-semibold text-accent-ink transition-transform duration-150 ease-[var(--ease-micro)] hover:-translate-y-px active:translate-y-0 md:flex"
           >
             {nav.cv}
           </a>
@@ -108,7 +108,7 @@ export function Navbar({ lang, nav }: { lang: Lang; nav: Content['nav'] }) {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.15 + i * 0.06, duration: 0.5, ease: EASE }}
                 >
-                  <a href={link.href} onClick={() => setIsOpen(false)} className="block py-1 font-display text-5xl font-semibold tracking-tight text-ink">
+                  <a href={link.href} onClick={() => setIsOpen(false)} className="display block py-1.5 text-[2.6rem] text-ink">
                     {link.label}
                   </a>
                 </motion.li>
@@ -118,7 +118,7 @@ export function Navbar({ lang, nav }: { lang: Lang; nav: Content['nav'] }) {
               href={CV_PATH}
               download
               onClick={() => setIsOpen(false)}
-              className="mt-10 flex h-14 items-center justify-center rounded-full bg-ink font-semibold text-ground"
+              className="mt-10 flex h-14 items-center justify-center rounded-full bg-accent font-semibold text-accent-ink"
             >
               {nav.cv} · PDF
             </a>

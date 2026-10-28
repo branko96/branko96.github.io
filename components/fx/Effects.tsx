@@ -8,7 +8,7 @@ import { useEffect } from 'react';
  *
  * - `[data-reveal]`: entra al hacer scroll. El CSS solo lo oculta con
  *   `data-fx="on"` en <html>, que se setea acá: sin JS el contenido queda visible.
- * - `[data-glow]`: posición del puntero como `--mx`/`--my`.
+ * - `[data-wipe]`: secciones de color pleno que entran con un barrido de clip-path.
  * - `[data-tilt]`: inclinación 3D según el puntero (`--rx`/`--ry`).
  */
 export function Effects() {
@@ -25,12 +25,12 @@ export function Effects() {
           io.unobserve(entry.target);
         }
       },
-      { rootMargin: '0px 0px -10% 0px', threshold: 0.12 }
+      { rootMargin: '0px 0px -12% 0px', threshold: 0 }
     );
 
     // Lo que ya está en pantalla al montar no se esconde (primera pintura legible)
     const vh = window.innerHeight;
-    document.querySelectorAll<HTMLElement>('[data-reveal]').forEach((el) => {
+    document.querySelectorAll<HTMLElement>('[data-reveal], [data-wipe]').forEach((el) => {
       if (el.getBoundingClientRect().top < vh * 0.9) el.dataset.shown = '';
       else io.observe(el);
     });
@@ -46,12 +46,6 @@ export function Effects() {
       if (!last) return;
       const { clientX, clientY, target } = last;
 
-      const glow = (target as Element | null)?.closest<HTMLElement>('[data-glow]');
-      if (glow) {
-        const r = glow.getBoundingClientRect();
-        glow.style.setProperty('--mx', `${clientX - r.left}px`);
-        glow.style.setProperty('--my', `${clientY - r.top}px`);
-      }
 
       const tilt = (target as Element | null)?.closest<HTMLElement>('[data-tilt]');
       document.querySelectorAll<HTMLElement>('[data-tilt]').forEach((el) => {

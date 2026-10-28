@@ -1,142 +1,177 @@
-# DESIGN.md
-
-> Fuente de verdad visual del portafolio de Branko Ottavianelli. Generado desde
-> `web-quality-kit/templates/DESIGN.md.template`: secciones 0–5 completadas,
-> 6–9 son las reglas del kit sin cambios.
-
+---
+name: Branko Ottavianelli · Cobalt
+colors:
+  ground: "#060a18"
+  ground-raised: "#0c1226"
+  ink: "#e2e8ff"
+  ink-dim: "rgb(226 232 255 / 0.72)"
+  muted: "rgb(226 232 255 / 0.55)"
+  accent: "#7aa2ff"
+  on-accent: "#060a18"
+  field: "#1f3fd6"
+  on-field: "#f2f5ff"
+  term-bg: "#03060f"
+  ok: "#7ee2b8"
+  warn: "#f5c76b"
+  crit: "#ff8a9a"
+  light-ground: "#f5f7fc"
+  light-ink: "#0f1424"
+  light-ink-dim: "#434b63"
+  light-accent: "#2347c8"
+typography:
+  display-xl:
+    fontFamily: Archivo
+    fontSize: clamp(2.5rem, 6.4vw, 6rem)
+    fontWeight: "800"
+    lineHeight: "0.95"
+    letterSpacing: -0.035em
+    fontVariation: "wdth 125"
+  display-lg:
+    fontFamily: Archivo
+    fontSize: clamp(2.2rem, 4.6vw, 4.4rem)
+    fontWeight: "800"
+    lineHeight: "0.95"
+    letterSpacing: -0.035em
+    fontVariation: "wdth 125"
+  heading:
+    fontFamily: Archivo
+    fontSize: 24px
+    fontWeight: "700"
+    lineHeight: 30px
+    letterSpacing: -0.01em
+  lead:
+    fontFamily: Archivo
+    fontSize: 20px
+    fontWeight: "400"
+    lineHeight: 32px
+  body:
+    fontFamily: Archivo
+    fontSize: 17px
+    fontWeight: "400"
+    lineHeight: 27px
+  small:
+    fontFamily: Archivo
+    fontSize: 14px
+    fontWeight: "400"
+    lineHeight: 20px
+  code:
+    fontFamily: JetBrains Mono
+    fontSize: 13px
+    fontWeight: "400"
+    lineHeight: 24px
+rounded:
+  control: 9999px
+  surface: 16px
+  field: 28px
+spacing:
+  unit: 4px
+  container-max: 76rem
+  margin: clamp(1rem, 4vw, 2.5rem)
+  section: clamp(6rem, 14vh, 11rem)
+components:
+  button-primary:
+    backgroundColor: "{colors.accent}"
+    textColor: "{colors.on-accent}"
+    typography: "{typography.body}"
+    rounded: "{rounded.control}"
+    height: 56px
+    padding: 28px
+  button-on-field:
+    backgroundColor: "{colors.on-field}"
+    textColor: "{colors.field}"
+    rounded: "{rounded.control}"
+    height: 56px
+  chip-on-field:
+    backgroundColor: "rgb(242 245 255 / 0.12)"
+    textColor: "{colors.on-field}"
+    rounded: "{rounded.control}"
+    height: 44px
+  surface-raised:
+    backgroundColor: "{colors.ground-raised}"
+    rounded: "{rounded.surface}"
+    padding: 28px
+  section-field:
+    backgroundColor: "{colors.field}"
+    textColor: "{colors.on-field}"
+    rounded: "{rounded.field}"
+  terminal:
+    backgroundColor: "{colors.term-bg}"
+    textColor: "#ecebf2"
+    typography: "{typography.code}"
+    rounded: "{rounded.surface}"
 ---
 
-## 0. Identidad del proyecto
+## Overview
 
-| Campo | Valor |
-|---|---|
-| Proyecto | branko96.github.io |
-| Qué es | Portafolio de un Senior React Native & AI Engineer: harness de agentes, skills y 7 años de mobile, para recruiters y líderes técnicos |
-| Tono | técnico, sereno, preciso |
-| Referencias | oblivion-tech (paleta Abyss, tipografías, motion Premium); oblivion-ecommerce (sistema `data-reveal`); un log de CI real (la sección Loop se lee como una corrida) |
-| Anti-referencias | Toolkits con selector de 7 pestañas (no copiamos el formato); portfolios con grilla de cards de vidrio y gradiente violeta en el hero |
+The portfolio of a senior React Native and AI engineer who builds agent harnesses. The page argues one thing: agents can carry a feature from issue to pull request, and a person only merges. Every visual decision serves that argument by showing the mechanism instead of describing it.
 
-Marca: monograma **BO** propio. Se hereda la huella visual de Oblivion (paleta, fuentes, curvas), no el isotipo.
+**Idea:** on this page, the harness's own output (a pull request, a run log, a bot report) becomes the imagery. The hero is a pull request whose checks complete on their own and that the visitor merges. The loop section is a run you scroll through and can break. The mobile section is the bot reporting to a phone. The page itself is a feature branch, drawn in the left margin, that merges into main at the contact.
 
----
+**Mode:** Persuade. The visitor is a hiring manager, a tech lead or a founder deciding whether to talk. Success is an email or a downloaded CV.
 
-## 1. Color
+**Scene:** read on a laptop during the working day, often late in someone else's time zone, so dark by default with a full light theme.
 
-Tokens en `app/globals.css`. Oscuro por defecto; claro con `data-theme="light"`.
+**Lineage:** inherits the motion discipline of web-quality-kit (exponential easing, reveals that never hide content without JS, reduced-motion fallbacks). Deliberately not the Oblivion look: no violet glow, no particle isotype, no shader blob, no serif accent.
 
-```css
-/* oscuro (Abyss) */
---ground: #110221;  --ground-raised: #1a0632;
---ink: #e9ddff;     --ink-dim: rgb(233 221 255 / .72);  --muted: rgb(233 221 255 / .55);
---accent: #a98bff;  --accent-alt: #5f20c5;   /* alt solo en canvas/gradientes */
---line: rgb(233 221 255 / .12);  --line-strong: rgb(233 221 255 / .24);
---ok: #7ee2b8;  --warn: #f5c76b;  --crit: #ff8a9a;   /* solo en el terminal del Loop */
+## Colors
 
-/* claro (Limestone) */
---ground: #f9f6fc;  --ground-raised: #ffffff;
---ink: #1d1a22;     --ink-dim: #494453;  --muted: #5d5768;
---accent: #993689;  --line: rgb(54 0 132 / .12);  --line-strong: rgb(54 0 132 / .24);
-```
+Strategy: **committed**. Cobalt carries whole regions, never sprinkled.
 
-Contraste: ink/ground 14.9:1 (oscuro), 16.2:1 (claro); ink-dim ≥ 7:1; accent sobre ground ≥ 6:1.
+- **Ground (#060a18)** is ink navy, not black. Raised surfaces step one tone up (#0c1226); surfaces are separated by tone, not lines or glows.
+- **Field (#1f3fd6)** is the identity. Two sections are drenched in it (the loop and the contact), with rounded 28px corners and a clip-path wipe on entry. On a field, text uses `on-field` at full or 92% strength; secondary text never drops below 86%.
+- **Accent (#7aa2ff)** is for the primary action and the active state only.
+- **Terminal colours** (`ok`, `warn`, `crit`) belong to log output and status, and stay fixed across palettes.
+- **Light theme:** ground #f5f7fc, ink #0f1424, accent #2347c8. The field stays cobalt.
 
----
+The palette lab (`?lab`) keeps five alternates for comparison; Cobalt is the published one (`DEFAULT_PALETTE` in `lib/palettes.ts`, the single source for all token CSS).
 
-## 2. Tipografía
+## Typography
 
-| Rol | Familia | Uso |
-|---|---|---|
-| Display | Bricolage Grotesque (opsz, wdth) | H1, H2, cifras |
-| Texto | Manrope | Lectura |
-| Acento | Fraunces itálica SOFT 100 | Una palabra por titular, nunca párrafos |
-| Mono | JetBrains Mono | Terminal del Loop, etiquetas de estado |
+One family, **Archivo**, used along its width axis:
 
-Escala: display XL `clamp(2.75rem, 7.5vw, 6.25rem)` / 0.92; H2 `clamp(2.1rem, 4.6vw, 3.6rem)` / 1;
-cuerpo 1.0625rem / 1.65; medida máx. 60ch; eyebrow 0.8rem tracking 0.16em; cifras `tabular-nums`.
+- **Display** is Archivo at `wdth 125`, weight 800, tracking −0.035em, leading 0.95. It narrows to `wdth 100` under 640px. Headlines stay within two lines on desktop; the hero size is computed from its longest line.
+- **Text** is Archivo at normal width, 17px / 1.6, measure 56–66ch.
+- **JetBrains Mono** appears only inside real code and interface fragments: run logs, branch names, skill commands.
 
----
+No eyebrows, no small tracked capitals, no italic accent words, no gradient text.
 
-## 3. Espaciado y grilla
+## Layout
 
-Escala `--s-1…--s-9` = 4 · 8 · 12 · 16 · 24 · 32 · 48 · 72 · 112 px. Ancho máx. 72rem con gutter
-`clamp(1rem, 4vw, 2.5rem)`. Padding de sección `clamp(4.5rem, 11vh, 8rem)` (`.section-py`).
-Radio único 18px (pills: 999px). `gap` en vez de márgenes.
+A 12-column grid inside a 76rem container with equal outer margins (`clamp(1rem, 4vw, 2.5rem)`). Sections are `clamp(6rem, 14vh, 11rem)` apart. Neighbouring sections never share a composition:
 
----
+hero (headline across, lead and PR artefact split) → marquee band → drenched loop (sticky stage) → craft (sticky heading, accordion) → hire on a raised field (title / body rows) → skills (large-type list) → mobile (sticky phone, editorial list) → experience on a raised field → drenched contact with overlap clock → footer.
 
-## 4. Movimiento
+## Elevation & Depth
 
-Personalidad **Premium** (motion-design).
+Flat by default. Depth comes from tone steps (ground → raised → field). Shadows exist only on things that truly float: the PR artefact, the terminal, the phone, and the lab panel. All of these are interface fragments marked `data-ui`.
 
-| Capa | Duración | Curva |
-|---|---|---|
-| Micro (hover, foco, toggle) | 160ms | `--ease-micro` cubic-bezier(0.2,0,0.2,1) |
-| Elemento (cards, expandir) | 420ms / spring 28·300 | `--ease-premium` cubic-bezier(0.16,1,0.3,1) |
-| Sección (reveals) | 900ms | `--ease-premium` |
-| Continuo (partículas, magnetic, backdrop) | `damp()` lerp exponencial | — |
+## Shapes
 
-Orquestación fuerte única: **el Loop** (stage sticky + terminal). El hero se lee en la primera
-pintura (reveal por palabra en CSS, sin esperar JS). `prefers-reduced-motion` apaga partículas,
-backdrop animado, magnetic, tilt y scrubbing; el Loop pasa a lista estática.
+Controls are fully round (9999px). Surfaces use 16px corners, and drenched fields use 28px. Icons are authored SVG with a 2px stroke and round caps; the BO monogram uses the same stroke language.
 
----
+## Components
 
-## 5. Presupuesto de performance
+- **PR artefact** (hero, the live element): repo and number, an Open/Merged pill, the title, the branch, and four checks whose spinners turn into checks through CSS delays (no JS needed, final state under reduced motion). A Merge button hands the human gate to the visitor.
+- **Loop stage:** a sticky two-column stage on desktop. Stage rail with a progress bar on the left; scenario chips ("Break something"), terminal and stage facts on the right. On mobile, without JS or under reduced motion, it becomes an ordered list with every log and fact visible.
+- **Branch rail:** a fixed SVG in the left margin (≥1536px). The feature line draws with scroll progress and gets a commit dot per section; the merge dot fills at the end.
+- **Phone chat:** the harness bot's messages arrive one by one with a typing indicator when the phone enters view.
+- **Overlap clock:** Bahía Blanca time and the visitor's time, two 24-hour bars of 9–18 working windows, and the shared hours.
+- **Footer:** the BO monogram drawn stroke by stroke, columns for on-page links, elsewhere and files, plus a colophon bar and "back to top".
 
-JS inicial ≤ 180KB gz · primera vista ≤ 1.5MB · LCP < 2.5s en 4G · Lighthouse ≥ 95 en las 4 categorías.
-Partículas: 2.4k escritorio / 1.2k móvil, degradan a la mitad si < 32fps por 2s. Shader WebGL
-low-power con fallback CSS `.abyss-glow`. Sin imágenes raster en la primera vista.
+## Motion
 
----
+- Easing: `--ease-premium` cubic-bezier(0.16, 1, 0.3, 1) for entrances, `--ease-micro` cubic-bezier(0.2, 0, 0.2, 1) for feedback.
+- Durations: feedback 150ms, elements 420–600ms, sections 800–1100ms.
+- Section entrances stagger heading, text and media by 60–90ms, rising 24px.
+- One authored orchestration per scroll region: the hero checks, the loop run, the phone messages, the branch.
+- Reduced motion keeps every piece of content and drops travel, loops and the sticky stage.
 
-## 6. Qué NO hacer
+## Do's and Don'ts
 
-Esta lista existe porque son las salidas por defecto de todo modelo cuando no hay dirección.
-Si el resultado se parece a alguna, hay que rehacerlo:
-
-- Crema cálido `#F4F1EA` + serif display + acento terracota.
-- Negro casi puro con un único pop verde ácido o bermellón.
-- Héroe con gradiente violeta-a-azul sobre blanco.
-- Inter o Space Grotesk "porque es seguro".
-- Emojis como marcadores de sección.
-- Todo centrado.
-- `border-radius` + sombra + borde en cada bloque (todo es una tarjeta).
-- Marcadores numerados `01 / 02 / 03` en contenido que **no** es una secuencia.
-- Barra de acento a la izquierda de cada tarjeta.
-- Héroe de `100vh` que empuja la página entera fuera de la primera vista.
-
----
-
-## 7. Estructura como información
-
-Los recursos estructurales (numeración, epígrafes, divisores, etiquetas) tienen que
-**codificar algo verdadero** del contenido, no decorarlo.
-
-- Numerá solo lo que es una secuencia real (un proceso, una cronología).
-- Una tarjeta implica "objeto separable". Si el contenido no lo es, no es una tarjeta.
-- Borde, relleno, radio y sombra son cuatro señales distintas de separación.
-  Gastalas por rol: levantá **una** cosa, no todas.
-
----
-
-## 8. Accesibilidad (no negociable)
-
-- Foco visible en todo control: `outline: 2px solid var(--accent); outline-offset: 3px`.
-- Todo control interactivo es un `<button>` o `<a>` real, con `aria-pressed`/`aria-label`
-  cuando el texto visible no alcanza.
-- El canvas decorativo lleva `aria-hidden="true"` y nunca contiene información única.
-- La página funciona sin JavaScript al nivel de leer el contenido.
-- Objetivos táctiles ≥ 44×44 px.
-
----
-
-## 9. Checklist antes de dar algo por terminado
-
-- [ ] La primera pintura es legible sin scrollear ni esperar animaciones.
-- [ ] No hay scroll horizontal a 360px de ancho.
-- [ ] Los dos temas (claro/oscuro) están definidos por tokens, o el proyecto se
-      compromete a uno solo de forma explícita.
-- [ ] Ningún color vive únicamente dentro de un `@media` o `[data-theme]`.
-- [ ] `prefers-reduced-motion` desactiva lo continuo.
-- [ ] Los números del presupuesto de performance se midieron, no se estimaron.
-- [ ] Ninguna decisión visual coincide con la sección 6.
+- Do show the mechanism (a PR, a log, a message) instead of claiming it. Label illustrative material as illustrative.
+- Do keep two drenched fields at most; the colour has to stay an event.
+- Do theme the browser surfaces: selection, caret, scrollbar, focus ring.
+- Don't add eyebrows, index numbers, gradient text, glows, glass or rows of identical icon cards.
+- Don't use monospace outside code and interface fragments.
+- Don't invent clients, quotes, metrics or logos.
+- Don't let a headline run past two lines on desktop.
