@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { AnimatePresence, motion } from 'motion/react';
+import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 import type { Content, Lang } from '@/content';
 import { cn } from '@/lib/cn';
 import { CV_PATH } from '@/lib/site';
@@ -14,6 +14,7 @@ const EASE = [0.16, 1, 0.3, 1] as const;
 export function Navbar({ lang, nav }: { lang: Lang; nav: Content['nav'] }) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const reduce = useReducedMotion();
 
   useEffect(() => {
     const onScroll = () => setIsScrolled(window.scrollY > 40);
@@ -26,7 +27,14 @@ export function Navbar({ lang, nav }: { lang: Lang; nav: Content['nav'] }) {
     document.body.style.overflow = isOpen ? 'hidden' : '';
     const onKey = (e: KeyboardEvent) => e.key === 'Escape' && setIsOpen(false);
     document.addEventListener('keydown', onKey);
-    return () => document.removeEventListener('keydown', onKey);
+    const media = window.matchMedia('(min-width: 1024px)');
+    const resize = () => { if (media.matches) setIsOpen(false); };
+    media.addEventListener('change', resize);
+    return () => {
+      document.body.style.overflow = '';
+      document.removeEventListener('keydown', onKey);
+      media.removeEventListener('change', resize);
+    };
   }, [isOpen]);
 
   return (
@@ -48,12 +56,12 @@ export function Navbar({ lang, nav }: { lang: Lang; nav: Content['nav'] }) {
       >
         <a href={`/${lang}/`} className="relative z-10 flex items-center gap-2.5 text-ink" aria-label="Branko Ottavianelli">
           <BOMark className="h-6 text-accent" />
-          <span className="display hidden text-[0.95rem] tracking-[-0.01em] sm:inline">
+          <span className="display hidden text-[0.95rem] tracking-[-0.01em] sm:inline whitespace-nowrap">
             Branko Ottavianelli
           </span>
         </a>
 
-        <div className="hidden items-center md:flex">
+        <div className="hidden items-center lg:flex">
           {nav.links.map((link) => (
             <a
               key={link.href}
@@ -71,13 +79,13 @@ export function Navbar({ lang, nav }: { lang: Lang; nav: Content['nav'] }) {
           <a
             href={CV_PATH}
             download
-            className="ml-2 hidden h-10 items-center rounded-full bg-accent px-5 text-[0.92rem] font-semibold text-accent-ink transition-transform duration-150 ease-[var(--ease-micro)] hover:-translate-y-px active:translate-y-0 md:flex"
+            className="ml-2 hidden h-10 items-center rounded-full bg-accent px-5 text-[0.92rem] font-semibold text-accent-ink transition-transform duration-150 ease-[var(--ease-micro)] hover:-translate-y-px active:translate-y-0 lg:flex"
           >
             {nav.cv}
           </a>
           <button
             type="button"
-            className="grid size-11 place-items-center rounded-full text-ink md:hidden"
+            className="grid size-11 place-items-center rounded-full text-ink lg:hidden"
             onClick={() => setIsOpen((v) => !v)}
             aria-expanded={isOpen}
             aria-controls="mobile-menu"
@@ -97,16 +105,16 @@ export function Navbar({ lang, nav }: { lang: Lang; nav: Content['nav'] }) {
             initial={{ clipPath: 'inset(0 0 100% 0)' }}
             animate={{ clipPath: 'inset(0 0 0% 0)' }}
             exit={{ clipPath: 'inset(0 0 100% 0)' }}
-            transition={{ duration: 0.55, ease: EASE }}
-            className="fixed inset-0 -z-10 flex flex-col justify-end bg-ground px-6 pb-12 pt-28 md:hidden"
+            transition={{ duration: reduce ? 0 : 0.25, ease: EASE }}
+            className="fixed inset-0 -z-10 flex flex-col justify-end bg-ground px-6 pb-12 pt-28 lg:hidden"
           >
             <ul className="flex flex-col gap-1">
               {nav.links.map((link, i) => (
                 <motion.li
                   key={link.href}
-                  initial={{ opacity: 0, y: 24 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.15 + i * 0.06, duration: 0.5, ease: EASE }}
+                  initial={{ opacity: reduce ? 1 : 0, transform: reduce ? 'none' : 'translateY(16px)' }}
+                  animate={{ opacity: 1, transform: 'translateY(0)' }}
+                  transition={{ delay: reduce ? 0 : i * 0.03, duration: reduce ? 0 : 0.2, ease: EASE }}
                 >
                   <a href={link.href} onClick={() => setIsOpen(false)} className="display block py-1.5 text-[2.6rem] text-ink">
                     {link.label}

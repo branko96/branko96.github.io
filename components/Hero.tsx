@@ -1,12 +1,12 @@
 import type { Content } from '@/content';
-import { CV_PATH } from '@/lib/site';
+import { CV_PATH, EMAIL } from '@/lib/site';
 import { Magnetic } from './fx/Magnetic';
 import { PrArtifact } from './PrArtifact';
 
 export function Hero({ hero }: { hero: Content['hero'] }) {
   // Tamaño calculado para que la línea más larga entre en el ancho: dos líneas en escritorio
   const longest = Math.max(...hero.title.map((l) => l.length));
-  const size = `clamp(2.5rem, calc((min(100vw, 76rem) - 5rem) / ${(longest * 0.56).toFixed(2)}), 6rem)`;
+  const size = `clamp(2.4rem, calc((min(100vw, 76rem) - 5rem) / ${(longest * 0.6).toFixed(2)}), 5.6rem)`;
 
   return (
     <section id="top" className="relative pb-20 pt-28 md:pb-28 md:pt-36">
@@ -21,6 +21,19 @@ export function Hero({ hero }: { hero: Content['hero'] }) {
 
         <div className="mt-12 grid gap-12 lg:mt-16 lg:grid-cols-12 lg:gap-10">
           <div className="lg:col-span-6">
+            <div className="fade-in mb-8 flex items-center gap-4" style={{ '--d': '240ms' } as React.CSSProperties}>
+              <img
+                src="/img/branko.jpg"
+                alt=""
+                width={72}
+                height={72}
+                className="size-16 shrink-0 rounded-full bg-[#f2f2f2] object-cover object-[50%_18%] md:size-[4.5rem]"
+              />
+              <p className="leading-snug">
+                <span className="block font-bold text-ink">{hero.photoAlt}</span>
+                <span className="block text-ink-dim">{hero.byline}</span>
+              </p>
+            </div>
             <p className="fade-in max-w-[56ch] text-lg leading-relaxed text-ink md:text-xl" style={{ '--d': '300ms' } as React.CSSProperties}>
               {hero.lead}
             </p>
@@ -30,12 +43,12 @@ export function Hero({ hero }: { hero: Content['hero'] }) {
             <div className="fade-in mt-10 flex flex-wrap items-center gap-3" style={{ '--d': '540ms' } as React.CSSProperties}>
               <Magnetic strength={0.3} radius={60}>
                 <a
-                  href="#loop"
+                  href={`mailto:${EMAIL}`}
                   className="flex h-14 items-center gap-2 rounded-full bg-accent px-7 font-semibold text-accent-ink transition-transform duration-150 ease-[var(--ease-micro)] active:scale-[0.98]"
                 >
                   {hero.ctaPrimary}
                   <svg viewBox="0 0 20 20" className="size-4" fill="none" stroke="currentColor" strokeWidth={2} aria-hidden="true">
-                    <path d="M10 4v12M5 11l5 5 5-5" strokeLinecap="round" strokeLinejoin="round" />
+                    <path d="M4 10h12M11 5l5 5-5 5" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
                 </a>
               </Magnetic>

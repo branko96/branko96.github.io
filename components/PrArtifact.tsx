@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import type { Content } from '@/content';
 import { cn } from '@/lib/cn';
 
@@ -19,12 +19,22 @@ const START = 700;
  */
 export function PrArtifact({ pr }: { pr: Content['hero']['pr'] }) {
   const [merged, setMerged] = useState(false);
+  const [ready, setReady] = useState(false);
   const done = START + pr.checks.length * STEP;
+  useEffect(() => {
+    const media = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const timer = window.setTimeout(() => setReady(true), done);
+    const sync = () => { if (media.matches) setReady(true); };
+    sync();
+    media.addEventListener('change', sync);
+    return () => { clearTimeout(timer); media.removeEventListener('change', sync); };
+  }, [done]);
 
   return (
     <figure className="m-0">
       <div
         data-ui
+        data-tilt
         className={CARD}
       >
         <div className="flex items-center justify-between gap-4 px-5 pb-3 pt-4 text-sm text-ink-dim">
@@ -101,7 +111,8 @@ export function PrArtifact({ pr }: { pr: Content['hero']['pr'] }) {
               <button
                 type="button"
                 onClick={() => setMerged(true)}
-                className="h-11 rounded-full bg-accent px-5 text-sm font-semibold text-accent-ink transition-transform duration-150 ease-[var(--ease-micro)] hover:-translate-y-px active:translate-y-0 active:scale-[0.98]"
+                disabled={!ready}
+                className="h-11 rounded-full bg-accent px-5 text-sm font-semibold text-accent-ink transition-transform duration-150 ease-[var(--ease-micro)] disabled:cursor-wait disabled:opacity-50 active:scale-[0.98]"
               >
                 {pr.merge}
               </button>

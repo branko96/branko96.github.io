@@ -15,7 +15,7 @@ export function Effects() {
   useEffect(() => {
     const root = document.documentElement;
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const finePointer = window.matchMedia('(pointer: fine)').matches;
+    const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 
     const io = new IntersectionObserver(
       (entries) => {
@@ -35,8 +35,22 @@ export function Effects() {
       else io.observe(el);
     });
     root.dataset.fx = 'on';
+    // Client-rendered stage changes must join the same reveal lifecycle.
+    const mutations = new MutationObserver((records) => {
+      for (const record of records) for (const node of record.addedNodes) {
+        if (!(node instanceof HTMLElement)) continue;
+        const elements = [node, ...node.querySelectorAll<HTMLElement>('[data-reveal], [data-wipe]')];
+        for (const el of elements) {
+          if (!el.matches('[data-reveal], [data-wipe]')) continue;
+          if (el.getBoundingClientRect().top < window.innerHeight * .9) el.dataset.shown = '';
+          else io.observe(el);
+        }
+      }
+    });
+    mutations.observe(document.body, { childList: true, subtree: true });
+    const cleanup = () => { io.disconnect(); mutations.disconnect(); delete root.dataset.fx; };
 
-    if (reduceMotion || !finePointer) return () => io.disconnect();
+    if (reduceMotion || !finePointer) return cleanup;
 
     let frame = 0;
     let last: PointerEvent | null = null;
@@ -69,7 +83,7 @@ export function Effects() {
 
     window.addEventListener('pointermove', onMove, { passive: true });
     return () => {
-      io.disconnect();
+      cleanup();
       window.removeEventListener('pointermove', onMove);
       if (frame) cancelAnimationFrame(frame);
     };

@@ -28,7 +28,7 @@ export function Loop({ loop }: { loop: Content['loop'] }) {
   const trackRef = useRef<HTMLDivElement>(null);
   const [live, setLive] = useState(false);
   const [active, setActive] = useState(0);
-  const [progress, setProgress] = useState(0);
+  const progressRef = useRef<HTMLSpanElement>(null);
   const [scenarioId, setScenarioId] = useState<string | null>(null);
   const n = loop.stages.length;
 
@@ -39,7 +39,7 @@ export function Loop({ loop }: { loop: Content['loop'] }) {
   );
 
   useEffect(() => {
-    const mq = window.matchMedia('(min-width: 1024px) and (prefers-reduced-motion: no-preference)');
+    const mq = window.matchMedia('(min-width: 1024px) and (min-height: 800px) and (prefers-reduced-motion: no-preference)');
     const sync = () => setLive(mq.matches);
     sync();
     mq.addEventListener('change', sync);
@@ -55,7 +55,7 @@ export function Loop({ loop }: { loop: Content['loop'] }) {
       if (!el) return;
       const r = el.getBoundingClientRect();
       const p = Math.min(1, Math.max(0, -r.top / Math.max(1, r.height - window.innerHeight)));
-      setProgress(p);
+      if (progressRef.current) progressRef.current.style.transform = `scaleY(${p})`;
       setActive(Math.min(n - 1, Math.floor(p * n * 0.999)));
     };
     const onScroll = () => {
@@ -75,7 +75,7 @@ export function Loop({ loop }: { loop: Content['loop'] }) {
     const el = trackRef.current;
     if (!el) return;
     if (!live) {
-      document.getElementById(`stage-${loop.stages[i].id}`)?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      document.getElementById(`stage-${loop.stages[i].id}`)?.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth', block: 'center' });
       return;
     }
     const top = el.getBoundingClientRect().top + window.scrollY;
@@ -148,13 +148,13 @@ export function Loop({ loop }: { loop: Content['loop'] }) {
           )}
         </div>
 
-        <div ref={trackRef} className="relative mt-10" style={live ? { height: `${n * 60 + 40}vh` } : undefined}>
+        <div ref={trackRef} className="relative mt-10" style={live ? { height: `${n * 35 + 65}vh` } : undefined}>
           <div className={cn('shell', live && 'sticky top-0 flex h-dvh items-center')}>
             <div className={cn('w-full', live && 'grid grid-cols-[minmax(0,4fr)_minmax(0,8fr)] items-center gap-12')}>
               <ol className="relative">
                 {live && (
                   <span aria-hidden="true" className="absolute bottom-3 left-[7px] top-3 w-0.5 rounded bg-on-field/20">
-                    <span className="absolute inset-0 origin-top rounded bg-on-field" style={{ transform: `scaleY(${progress})` }} />
+                    <span ref={progressRef} className="absolute inset-0 origin-top rounded bg-on-field" style={{ transform: 'scaleY(0)' }} />
                   </span>
                 )}
                 {loop.stages.map((s, i) => {
@@ -264,19 +264,6 @@ export function Loop({ loop }: { loop: Content['loop'] }) {
 
         <div className="shell">
           <p className="mt-6 text-sm text-muted">{loop.runNote}</p>
-          <div className="mt-20">
-            <h3 data-reveal className="text-2xl font-bold tracking-tight">
-              {loop.alwaysOn.title}
-            </h3>
-            <ul className="mt-8 grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-5">
-              {loop.alwaysOn.items.map((item, i) => (
-                <li key={item.name} data-reveal style={{ '--d': `${i * 70}ms` } as React.CSSProperties}>
-                  <p className="text-lg font-bold">{item.name}</p>
-                  <p className="mt-2 leading-relaxed text-ink-dim">{item.text}</p>
-                </li>
-              ))}
-            </ul>
-          </div>
         </div>
       </div>
     </section>

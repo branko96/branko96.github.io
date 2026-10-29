@@ -38,9 +38,12 @@ export interface CraftItem {
   evidence: string;
 }
 
-export interface Skill {
+export interface Project {
   name: string;
-  does: string;
+  image: string;
+  tagline: string;
+  body: string;
+  stack: string;
 }
 
 export interface MobileApp {
@@ -56,12 +59,6 @@ export interface Role {
   company: string;
   period: string;
   meta?: string;
-  points: string[];
-}
-
-export interface Offer {
-  title: string;
-  body: string;
   points: string[];
 }
 
@@ -81,6 +78,8 @@ export interface Content {
     title: string[];
     lead: string;
     proof: string;
+    photoAlt: string;
+    byline: string;
     ctaPrimary: string;
     ctaSecondary: string;
     pr: {
@@ -98,7 +97,7 @@ export interface Content {
       note: string;
     };
   };
-  marquee: string[];
+  proof: { label: string; items: { value: string; text: string }[] };
   loop: {
     title: string;
     intro: string;
@@ -112,7 +111,6 @@ export interface Content {
     cleanRun: string;
     stages: LoopStage[];
     scenarios: LoopScenario[];
-    alwaysOn: { title: string; items: { name: string; text: string }[] };
   };
   craft: {
     title: string;
@@ -122,28 +120,16 @@ export interface Content {
     close: string;
     items: CraftItem[];
   };
-  hire: {
+  work: {
     title: string;
     intro: string;
-    offers: Offer[];
-    cta: string;
-  };
-  skills: {
-    title: string;
-    intro: string;
-    chain: Skill[];
-    note: string;
-    credit: string;
+    imageAlt: string;
+    projects: Project[];
+    kit: { name: string; href: string; body: string; skills: string[]; link: string };
   };
   mobile: {
     title: string;
     intro: string;
-    phone: {
-      chat: string;
-      status: string;
-      messages: { title: string; time: string; lines: string[] }[];
-      caption: string;
-    };
     apps: MobileApp[];
   };
   experience: {

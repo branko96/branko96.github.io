@@ -2,17 +2,16 @@ import type { Content } from './types';
 
 export const en: Content = {
   meta: {
-    title: 'Branko Ottavianelli · Senior React Native & AI Engineer',
+    title: 'Branko Ottavianelli · Senior Full-Stack & Mobile Engineer, AI-native',
     description:
-      'Senior React Native engineer with 7 years of App Store and Google Play releases. I design agent harnesses that take a GitHub issue to a reviewed, tested pull request, with a human only at the merge.',
+      'Senior full-stack and mobile engineer, AI-native. Seven years shipping React Native apps and Next.js and NestJS products; today I own my team’s AI-assisted delivery at Globant.',
     ogLocale: 'en_US',
   },
   nav: {
     links: [
-      { href: '#loop', label: 'Loop' },
-      { href: '#craft', label: 'Craft' },
-      { href: '#hire', label: 'Work with me' },
-      { href: '#mobile', label: 'Mobile' },
+      { href: '#mobile', label: 'Apps' },
+      { href: '#loop', label: 'AI workflow' },
+      { href: '#work', label: 'Studio' },
       { href: '#experience', label: 'Experience' },
     ],
     cv: 'CV',
@@ -24,10 +23,12 @@ export const en: Content = {
     langLabel: 'Leer en español',
   },
   hero: {
-    title: ['I build the harness', 'that lets agents ship.'],
-    lead: 'I’m Branko, a senior React Native and AI engineer in Argentina. For seven years I’ve shipped apps to both stores; today I design the agent loops that turn a GitHub issue into a reviewed, tested pull request. A person only merges.',
-    proof: '450+ commits, 90+ merged pull requests and ~300 tests went into my own runner in seven weeks.',
-    ctaPrimary: 'Watch a run',
+    title: ['Senior full-stack & mobile', 'engineer, AI-native.'],
+    lead: 'I’m Branko, a remote engineer in Argentina. For seven years I’ve shipped React Native apps to both stores and built web products with Next.js and NestJS. At Globant I own my team’s AI-assisted delivery: the agents, skills and review harness everyone uses daily.',
+    proof: 'My own coding agent has 450+ commits, 90+ merged pull requests and ~300 tests behind it. The pull request on the right is how it hands work over.',
+    photoAlt: 'Branko Ottavianelli',
+    byline: 'Software Designer at Globant · Bahía Blanca, Argentina',
+    ctaPrimary: 'Email me',
     ctaSecondary: 'Download CV',
     pr: {
       repo: 'storefront',
@@ -49,11 +50,19 @@ export const en: Content = {
       note: 'Illustrative pull request. Press merge: you are the human gate.',
     },
   },
-  marquee: ['Claude Code', 'Codex', 'LangGraph', 'OpenSpec', 'Playwright', 'React Native', 'Expo', 'Next.js', 'NestJS', 'TypeScript', 'Bitrise', 'fastlane', 'Solidity', 'Telegram Bot API'],
+  proof: {
+    label: 'In numbers',
+    items: [
+      { value: '7 yrs', text: 'shipping React Native to the App Store and Google Play' },
+      { value: '35K+', text: 'people on the waitlist when the YoCripto app I built launched' },
+      { value: '370+', text: 'Farmacity stores behind the app I helped deliver at Globant' },
+      { value: '90+', text: 'pull requests from my coding agent, merged after review' },
+    ],
+  },
   loop: {
     title: 'Issue in, pull request out',
     intro:
-      'A deterministic runner drives every stage. The model only writes code, so orchestration costs zero tokens and a provider outage cannot stall a feature. Scroll through a run.',
+      'A harness is the system around an agent: context, tools, permissions and tests. Mine turns an issue into a verifiable PR. Explore each stage and see what happens when something fails.',
     runLabel: 'feature run',
     runNote: 'Illustrative run. Stage names and log format come from the real runner.',
     actorLabel: 'Who acts',
@@ -183,20 +192,10 @@ export const en: Content = {
         recovered: 'Severe findings go back to the writer once. A second miss blocks the unit.',
       },
     ],
-    alwaysOn: {
-      title: 'Always on, underneath every run',
-      items: [
-        { name: 'Self-heal', text: 'Fixes known failure classes at zero tokens, with caps, a kill switch and an action log. A fix may never weaken a gate.' },
-        { name: 'Quota gate', text: 'Decides whether a unit may start. Fails open, and caps any wait at 24h so a bad marker cannot lock every project.' },
-        { name: 'Model canary', text: 'Pings every model in the fallback chain, added after a fallback once failed silently.' },
-        { name: 'Cost ledger', text: 'Input, output, cache-read and cache-write tokens per call, split by stage on a dashboard.' },
-        { name: 'Telegram', text: 'Run reports and quota, canary and self-heal alerts. Approvals stay in GitHub.' },
-      ],
-    },
   },
   craft: {
     title: 'Built to run unattended',
-    intro: 'The loop is the visible part. These are the decisions that make it safe to leave alone.',
+    intro: 'The loop is the visible part. These are the decisions that make it safe to leave alone, and the ones I bring to a team.',
     evidenceLabel: 'Evidence',
     open: 'Expand',
     close: 'Collapse',
@@ -235,28 +234,6 @@ export const en: Content = {
         evidence: 'Writer-chain and triage-outage tests; public repo codex-app-everywhere runs Codex through a LiteLLM proxy.',
       },
       {
-        id: 'cost',
-        title: 'Token and cost engineering',
-        hook: 'Every call is accounted for.',
-        points: [
-          'Default models moved from Opus to Sonnet, with a single escalation path when quality needs it.',
-          'Plans are cached by issue, base SHA, model and schema; an e2e pass is cached by head SHA.',
-          'Per-call usage (input, output, cache read, cache write) flows into a dashboard that splits tokens and savings by stage.',
-        ],
-        evidence: 'Express + SQLite collector every 5 minutes; usage reports per run.',
-      },
-      {
-        id: 'context',
-        title: 'Context and memory',
-        hook: 'What the agent knows, and what it must never trust.',
-        points: [
-          'Agent workspaces separate stable identity (agents, soul, tools) from working memory and a heartbeat file.',
-          'Planners get read-only snapshots, not live repos. Untrusted issue text is fenced with a per-call nonce.',
-          'A test feeds a crafted issue that tries to close the fence early and escape into instructions.',
-        ],
-        evidence: 'test-prompt-injection, schema-validated plan and review results.',
-      },
-      {
         id: 'skills',
         title: 'Skills and subagents',
         hook: 'Tooling a whole team uses, not just me.',
@@ -265,95 +242,29 @@ export const en: Content = {
           'I write skills, agents and workflows on demand for UX, product, frontend and QA, and onboard every teammate onto them.',
           'In my own runner, a weekly digest proposes new skills; only allowlisted updates that scan clean are applied automatically.',
         ],
-        evidence: 'Four published Claude Code skills (below), used to build this site.',
-      },
-      {
-        id: 'telegram',
-        title: 'Telegram operations',
-        hook: 'The loop reports in; it does not ask permission there.',
-        points: [
-          'Run reports plus quota, canary and self-heal alerts land in Telegram.',
-          'A PM bot built on LangGraph.js runs one state graph per job (triage, review queue, digest). Version one is rule-based on purpose.',
-          'job-radar polls job feeds, applies cheap rules before an LLM evaluator, caps retries and pushes matches to Telegram.',
-        ],
-        evidence: 'Ports-and-adapters design, 100+ tests in job-radar, 4 vitest suites in the PM bot.',
-      },
-      {
-        id: 'sdd',
-        title: 'Spec-driven development',
-        hook: 'Acceptance criteria are the contract between plan and proof.',
-        points: [
-          'In product work I use OpenSpec with strict TDD.',
-          'In the runner the spec is the plan JSON: Given/When/Then criteria, each with an ID.',
-          'Those IDs must show up in Playwright test titles, and the pull request carries the criteria matrix.',
-        ],
-        evidence: 'matrixGate in the e2e stage; feature-level plan template.',
+        evidence: 'web-quality-kit, four open-source Claude Code skills (below), used to build this site.',
       },
     ],
   },
-  hire: {
-    title: 'Three ways I can help your team',
-    intro: 'For a full-time role or a defined project, remote from Argentina.',
-    offers: [
-      {
-        title: 'An agent harness in your repo',
-        body: 'I set the loop up inside your team’s repository, with your people merging: skills and agents per role, quality gates, AI review, end-to-end tests and cost tracking.',
-        points: [
-          'Skills and subagents for UX, product, frontend and QA',
-          'Plans with acceptance criteria, AI review and Playwright gates',
-          'A least-privilege bot account and token and cost reporting',
-          'Onboarding so the whole team uses it every day',
-        ],
-      },
-      {
-        title: 'Your React Native app, shipped',
-        body: 'From a new Expo app to stabilising one already in production: native modules, push, releases on both stores and accessibility done properly.',
-        points: [
-          'Expo or bare React Native, in TypeScript',
-          'Native modules, push notifications, KYC and OCR flows',
-          'CI/CD with Bitrise or fastlane, monorepos',
-          'VoiceOver and TalkBack support from day one',
-        ],
-      },
-      {
-        title: 'Agents on call',
-        body: 'Automation that keeps working when nobody is watching, and tells you about it on your phone.',
-        points: [
-          'Telegram bots built on LangGraph state machines',
-          'Self-healing scheduled runners with quota and canary checks',
-          'Multi-model routing with cheap rules before the LLM',
-          'Dashboards for tokens, cost and failed runs',
-        ],
-      },
+  work: {
+    title: 'Oblivion Tech',
+    intro: 'The agent-driven studio where my harness ships client products. I build the agents, the pipeline and the reviews; the screenshots below are products that went through it.',
+    imageAlt: 'interface',
+    projects: [
+      { name: 'Zesty', image: 'zesty', tagline: 'A digital menu SaaS for restaurants and bars.', body: 'Multi-tenant product taken from a business idea to a live app in phased delivery: identity, flows and an interface shaped around how a venue actually runs.', stack: 'Next.js · NestJS · MongoDB' },
+      { name: 'RawShots Sport', image: 'rawshots', tagline: 'Find your photo. Buy it. Keep moving.', body: 'A sports photography marketplace connecting face search, galleries and MercadoPago checkout, with face matching tuned to stay cheap instead of calling a generative model.', stack: 'Next.js · NestJS · ML · MercadoPago' },
     ],
-    cta: 'Tell me about your project',
-  },
-  skills: {
-    title: 'Claude Code skills I wrote',
-    intro: 'Each skill does one job and hands off to the next, so an agent can take a landing page from diagnosis to rebuilt section without guessing.',
-    chain: [
-      { name: 'audit-landing', does: 'Diagnoses a landing in six passes (cases, H1, CTA hierarchy, domain email, trust, CSS) and returns findings by severity with file and line.' },
-      { name: 'design-tokens', does: 'Finds the visual source of truth, detects the CSS architecture and consolidates colour, type, radius and spacing into tokens without breaking usages.' },
-      { name: 'rebuild-section', does: 'Rebuilds one section on top of the tokens: Server Components first, accessible, verified with screenshots in mobile and reduced motion.' },
-      { name: 'fx-effects', does: 'A catalogue of framework-free effects (shader backdrop, particles, magnetic, text reveal) with destroy(), reduced-motion support and frame budgets.' },
-    ],
-    note: 'This site went through the chain: audited, tokenised, rebuilt section by section, then checked against the Impeccable and Taste rule sets.',
-    credit: 'The motion-design skill in the same kit is adapted from LottieFiles (MIT).',
+    kit: {
+      name: 'web-quality-kit',
+      href: 'https://github.com/oblivion-tech-agency/web-quality-kit',
+      body: 'Open-source Claude Code skills I wrote. Each one does one job and hands off to the next, so an agent can take a landing page from diagnosis to a rebuilt section without guessing.',
+      skills: ['audit-landing', 'design-tokens', 'rebuild-section', 'motion-design'],
+      link: 'View on GitHub',
+    },
   },
   mobile: {
-    title: 'React Native since 2019',
-    intro: 'Before agents, and alongside them: apps on both stores, native modules, release pipelines and accessibility done properly.',
-    phone: {
-      chat: 'harness bot',
-      status: 'online',
-      messages: [
-        { title: 'Run report', time: '09:20', lines: ['feature/checkout-coupons: PR opened', '4 units · gate, review and e2e passed'] },
-        { title: 'Quota alert', time: '11:05', lines: ['Claude window at 82%.', 'Writers hand off at 95%.'] },
-        { title: 'Canary', time: '12:00', lines: ['5 of 5 models answered.', 'Fallback chain healthy.'] },
-        { title: 'Self-heal', time: '14:40', lines: ['Cleared a stale lock on project 2.', 'No gate was touched.'] },
-      ],
-      caption: 'Where my two careers meet: the agents report to a phone. Illustrative messages.',
-    },
+    title: 'Apps in production',
+    intro: 'React Native since 2019: apps on both stores, native modules, release pipelines and accessibility done properly.',
     apps: [
       {
         name: 'YoCripto',
@@ -412,7 +323,7 @@ export const en: Content = {
     title: 'Where I have worked',
     roles: [
       {
-        title: 'Software Designer · Senior React Native & AI Engineer',
+        title: 'Software Designer',
         company: 'Globant',
         period: 'Feb 2026 – Present',
         meta: 'Full-time · Remote',
@@ -428,9 +339,9 @@ export const en: Content = {
         period: 'Feb 2026 – Present',
         meta: 'Contract · Remote',
         points: [
-          'Built the autonomous coding agent shown above: a deterministic state machine that turns GitHub issues into reviewed pull requests (~450 commits, 90+ merged PRs, ~300 tests).',
+          'Built the autonomous coding agent shown above: a deterministic state machine that turns issues into reviewed pull requests (450+ commits, 90+ merged PRs, ~300 tests).',
           'Quality gates on every PR, multi-model routing with fallbacks, per-call token and cost tracking, least-privilege security.',
-          'Authored reusable Claude Code skills for web audit, design tokens, section rebuild and effects.',
+          'Shipped client products through the pipeline, including a field-service PWA MVP for Voltaico delivered in one week.',
         ],
       },
       {
@@ -509,8 +420,8 @@ export const en: Content = {
     },
   },
   contact: {
-    title: 'Let’s build yours.',
-    text: 'Email is the fastest way to reach me. I work remotely from Argentina (UTC−3), with good overlap with US and European hours.',
+    title: 'Let’s talk.',
+    text: 'I’m open to full-time remote roles as a senior full-stack or mobile engineer. Email is the fastest way to reach me. I work from Argentina (UTC−3), with good overlap with US and European hours.',
     email: 'brankoottavianelli@gmail.com',
     links: [
       { label: 'LinkedIn', href: 'https://www.linkedin.com/in/branko-ott' },
@@ -527,7 +438,7 @@ export const en: Content = {
       fallback: 'UTC−3. Mornings overlap with the US East Coast, afternoons with Europe.',
     },
     footer: {
-      tagline: 'Senior React Native & AI engineer. Bahía Blanca, Argentina.',
+      tagline: 'Senior full-stack & mobile engineer, AI-native. Bahía Blanca, Argentina.',
       onPage: 'On this page',
       elsewhere: 'Elsewhere',
       files: 'Files',

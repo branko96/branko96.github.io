@@ -2,17 +2,16 @@ import type { Content } from './types';
 
 export const es: Content = {
   meta: {
-    title: 'Branko Ottavianelli · Senior React Native & AI Engineer',
+    title: 'Branko Ottavianelli · Senior Full-Stack & Mobile Engineer, AI-native',
     description:
-      'Ingeniero React Native senior con 7 años publicando en App Store y Google Play. Diseño harnesses de agentes que llevan un issue de GitHub a un pull request revisado y testeado, con una persona solo en el merge.',
+      'Ingeniero senior full-stack y mobile, AI-native. Siete años publicando apps React Native y productos con Next.js y NestJS; hoy lidero la entrega asistida por IA de mi equipo en Globant.',
     ogLocale: 'es_AR',
   },
   nav: {
     links: [
-      { href: '#loop', label: 'Loop' },
-      { href: '#craft', label: 'Oficio' },
-      { href: '#hire', label: 'Trabajemos' },
-      { href: '#mobile', label: 'Mobile' },
+      { href: '#mobile', label: 'Apps' },
+      { href: '#loop', label: 'Cómo uso IA' },
+      { href: '#work', label: 'Estudio' },
       { href: '#experience', label: 'Experiencia' },
     ],
     cv: 'CV',
@@ -24,10 +23,12 @@ export const es: Content = {
     langLabel: 'Read in English',
   },
   hero: {
-    title: ['Construyo el harness', 'que deja a los agentes entregar.'],
-    lead: 'Soy Branko, ingeniero React Native e IA senior en Argentina. Hace siete años publico apps en las dos tiendas; hoy diseño los loops de agentes que convierten un issue de GitHub en un pull request revisado y testeado. Una persona solo mergea.',
-    proof: 'Más de 450 commits, 90 pull requests mergeados y ~300 tests entraron a mi propio runner en siete semanas.',
-    ctaPrimary: 'Ver una corrida',
+    title: ['Ingeniero senior full-stack', 'y mobile, AI-native.'],
+    lead: 'Soy Branko, ingeniero remoto en Argentina. Hace siete años publico apps React Native en las dos tiendas y construyo productos web con Next.js y NestJS. En Globant lidero la entrega asistida por IA de mi equipo: los agentes, skills y el harness de revisión que todos usan a diario.',
+    proof: 'Mi propio agente de código tiene más de 450 commits, 90 pull requests mergeados y ~300 tests. El pull request de la derecha es cómo entrega el trabajo.',
+    photoAlt: 'Branko Ottavianelli',
+    byline: 'Software Designer en Globant · Bahía Blanca, Argentina',
+    ctaPrimary: 'Escribime',
     ctaSecondary: 'Descargar CV',
     pr: {
       repo: 'storefront',
@@ -49,11 +50,19 @@ export const es: Content = {
       note: 'Pull request ilustrativo. Apretá merge: vos sos el gate humano.',
     },
   },
-  marquee: ['Claude Code', 'Codex', 'LangGraph', 'OpenSpec', 'Playwright', 'React Native', 'Expo', 'Next.js', 'NestJS', 'TypeScript', 'Bitrise', 'fastlane', 'Solidity', 'Telegram Bot API'],
+  proof: {
+    label: 'En números',
+    items: [
+      { value: '7 años', text: 'publicando apps React Native en App Store y Google Play' },
+      { value: '35K+', text: 'personas en lista de espera cuando lanzó la app de YoCripto que construí' },
+      { value: '370+', text: 'sucursales de Farmacity detrás de la app que ayudé a entregar en Globant' },
+      { value: '90+', text: 'pull requests de mi agente de código, mergeados después de revisión' },
+    ],
+  },
   loop: {
     title: 'Entra un issue, sale un PR',
     intro:
-      'Un runner determinístico maneja cada etapa. El modelo solo escribe código: la orquestación no gasta tokens y la caída de un proveedor no frena una feature. Scrolleá una corrida.',
+      'Un harness es el sistema que rodea al agente: contexto, herramientas, permisos y pruebas. El mío convierte un issue en un PR verificable. Explorá cada etapa y probá qué pasa cuando algo falla.',
     runLabel: 'corrida de feature',
     runNote: 'Corrida ilustrativa. Las etapas y el formato del log son los del runner real.',
     actorLabel: 'Quién actúa',
@@ -183,20 +192,10 @@ export const es: Content = {
         recovered: 'Los hallazgos graves vuelven al writer una vez. Si vuelve a fallar, la unidad se bloquea.',
       },
     ],
-    alwaysOn: {
-      title: 'Siempre encendido, debajo de cada corrida',
-      items: [
-        { name: 'Self-heal', text: 'Arregla clases de falla conocidas sin gastar tokens, con topes, kill switch y log de acciones. Un arreglo nunca puede debilitar un gate.' },
-        { name: 'Quota gate', text: 'Decide si una unidad puede arrancar. Falla abierto y limita cualquier espera a 24 h para que un marcador malo no trabe todo.' },
-        { name: 'Model canary', text: 'Hace ping a cada modelo de la cadena de fallback; nació después de que un fallback fallara en silencio.' },
-        { name: 'Ledger de costos', text: 'Tokens de entrada, salida, lectura y escritura de caché por llamada, separados por etapa en un dashboard.' },
-        { name: 'Telegram', text: 'Reportes de corrida y alertas de cuota, canary y self-heal. Las aprobaciones quedan en GitHub.' },
-      ],
-    },
   },
   craft: {
-    title: 'Hecho para correr sin supervisión',
-    intro: 'El loop es la parte visible. Estas son las decisiones que permiten dejarlo solo.',
+    title: 'Hecho para correr solo',
+    intro: 'El loop es la parte visible. Estas son las decisiones que permiten dejarlo solo, y las que llevo a un equipo.',
     evidenceLabel: 'Evidencia',
     open: 'Expandir',
     close: 'Contraer',
@@ -235,28 +234,6 @@ export const es: Content = {
         evidence: 'Tests de cadena de writers y de caída del triage; el repo público codex-app-everywhere corre Codex detrás de un proxy LiteLLM.',
       },
       {
-        id: 'cost',
-        title: 'Ingeniería de tokens y costos',
-        hook: 'Cada llamada queda registrada.',
-        points: [
-          'Los modelos por defecto pasaron de Opus a Sonnet, con un único camino de escalada cuando la calidad lo pide.',
-          'Los planes se cachean por issue, SHA base, modelo y schema; un pase de e2e se cachea por SHA.',
-          'El uso por llamada (entrada, salida, lectura y escritura de caché) alimenta un dashboard que separa tokens y ahorro por etapa.',
-        ],
-        evidence: 'Colector Express + SQLite cada 5 minutos; reportes de uso por corrida.',
-      },
-      {
-        id: 'context',
-        title: 'Contexto y memoria',
-        hook: 'Lo que el agente sabe, y lo que nunca debe creer.',
-        points: [
-          'Los workspaces de agentes separan la identidad estable (agentes, soul, tools) de la memoria de trabajo y un archivo de heartbeat.',
-          'Los planners reciben snapshots de solo lectura, no repos vivos. El texto no confiable del issue va cercado con un nonce por llamada.',
-          'Un test alimenta un issue armado para cerrar el cerco antes de tiempo y escaparse a instrucciones.',
-        ],
-        evidence: 'test-prompt-injection, resultados de plan y review validados por schema.',
-      },
-      {
         id: 'skills',
         title: 'Skills y subagentes',
         hook: 'Herramientas que usa todo un equipo, no solo yo.',
@@ -265,95 +242,29 @@ export const es: Content = {
           'Escribo skills, agentes y workflows a pedido para UX, producto, frontend y QA, y sumo a cada integrante a usarlos.',
           'En mi runner, un digest semanal propone skills nuevas; solo se aplican solas las actualizaciones en allowlist que pasan el escaneo.',
         ],
-        evidence: 'Cuatro skills de Claude Code publicadas (abajo), usadas para construir este sitio.',
-      },
-      {
-        id: 'telegram',
-        title: 'Operación por Telegram',
-        hook: 'El loop reporta ahí; no pide permiso ahí.',
-        points: [
-          'Reportes de corrida y alertas de cuota, canary y self-heal llegan a Telegram.',
-          'Un bot de PM sobre LangGraph.js corre un grafo de estados por tarea (triage, cola de review, digest). La versión uno es por reglas, a propósito.',
-          'job-radar consulta feeds de empleo, aplica reglas baratas antes de un evaluador LLM, limita reintentos y manda los matches a Telegram.',
-        ],
-        evidence: 'Diseño ports-and-adapters, más de 100 tests en job-radar, 4 suites de vitest en el bot de PM.',
-      },
-      {
-        id: 'sdd',
-        title: 'Desarrollo guiado por specs',
-        hook: 'Los criterios de aceptación son el contrato entre plan y prueba.',
-        points: [
-          'En trabajo de producto uso OpenSpec con TDD estricto.',
-          'En el runner la spec es el JSON del plan: criterios Given/When/Then, cada uno con un ID.',
-          'Esos IDs tienen que aparecer en los títulos de los tests de Playwright, y el pull request lleva la matriz de criterios.',
-        ],
-        evidence: 'matrixGate en la etapa de e2e; plantilla de plan a nivel feature.',
+        evidence: 'web-quality-kit, cuatro skills open source de Claude Code (abajo), usadas para construir este sitio.',
       },
     ],
   },
-  hire: {
-    title: 'Tres formas de ayudar a tu equipo',
-    intro: 'Para un rol full-time o un proyecto acotado, remoto desde Argentina.',
-    offers: [
-      {
-        title: 'Un harness de agentes en tu repo',
-        body: 'Armo el loop dentro del repositorio de tu equipo, con tu gente mergeando: skills y agentes por rol, quality gates, review con IA, tests end-to-end y tracking de costos.',
-        points: [
-          'Skills y subagentes para UX, producto, frontend y QA',
-          'Planes con criterios de aceptación, review IA y gates de Playwright',
-          'Una cuenta de bot con mínimo privilegio y reportes de tokens y costos',
-          'Onboarding para que todo el equipo lo use todos los días',
-        ],
-      },
-      {
-        title: 'Tu app React Native, entregada',
-        body: 'Desde una app Expo nueva hasta estabilizar una que ya está en producción: módulos nativos, push, releases en las dos tiendas y accesibilidad bien hecha.',
-        points: [
-          'Expo o React Native bare, en TypeScript',
-          'Módulos nativos, push notifications, flujos de KYC y OCR',
-          'CI/CD con Bitrise o fastlane, monorepos',
-          'Soporte de VoiceOver y TalkBack desde el día uno',
-        ],
-      },
-      {
-        title: 'Agentes de guardia',
-        body: 'Automatización que sigue trabajando cuando nadie mira, y te avisa en el teléfono.',
-        points: [
-          'Bots de Telegram sobre máquinas de estado de LangGraph',
-          'Runners programados que se autorreparan, con chequeos de cuota y canary',
-          'Ruteo multi-modelo con reglas baratas antes del LLM',
-          'Dashboards de tokens, costos y corridas fallidas',
-        ],
-      },
+  work: {
+    title: 'Oblivion Tech',
+    intro: 'El estudio de software donde mi harness entrega productos para clientes. Construyo los agentes, el pipeline y las revisiones; estas capturas son productos que pasaron por él.',
+    imageAlt: 'interfaz',
+    projects: [
+      { name: 'Zesty', image: 'zesty', tagline: 'Un menú digital SaaS para restaurantes y bares.', body: 'Producto multi-tenant llevado de una idea de negocio a una app en producción por etapas: identidad, flujos y una interfaz pensada alrededor de cómo opera un local.', stack: 'Next.js · NestJS · MongoDB' },
+      { name: 'RawShots Sport', image: 'rawshots', tagline: 'Encontrá tu foto. Comprala. Seguí.', body: 'Marketplace de fotografía deportiva que conecta búsqueda por rostro, galerías y checkout con MercadoPago, con un reconocimiento facial pensado para ser barato en vez de usar un modelo generativo.', stack: 'Next.js · NestJS · ML · MercadoPago' },
     ],
-    cta: 'Contame de tu proyecto',
-  },
-  skills: {
-    title: 'Skills de Claude Code que escribí',
-    intro: 'Cada skill hace un trabajo y le pasa la posta a la siguiente, así un agente lleva una landing del diagnóstico a la sección reconstruida sin adivinar.',
-    chain: [
-      { name: 'audit-landing', does: 'Diagnostica una landing en seis pasadas (casos, H1, jerarquía de CTAs, email de dominio, confianza, CSS) y devuelve hallazgos por severidad con archivo y línea.' },
-      { name: 'design-tokens', does: 'Encuentra la fuente de verdad visual, detecta la arquitectura CSS y consolida color, tipografía, radios y espaciado en tokens sin romper usos.' },
-      { name: 'rebuild-section', does: 'Reconstruye una sección sobre los tokens: Server Components primero, accesible, verificada con capturas en mobile y con movimiento reducido.' },
-      { name: 'fx-effects', does: 'Un catálogo de efectos sin framework (fondo shader, partículas, magnetic, revelado de texto) con destroy(), soporte de movimiento reducido y presupuesto de frames.' },
-    ],
-    note: 'Este sitio pasó por la cadena: auditado, llevado a tokens, reconstruido sección por sección y después revisado con las reglas de Impeccable y Taste.',
-    credit: 'La skill motion-design del mismo kit es una adaptación de LottieFiles (MIT).',
+    kit: {
+      name: 'web-quality-kit',
+      href: 'https://github.com/oblivion-tech-agency/web-quality-kit',
+      body: 'Skills open source de Claude Code que escribí. Cada una hace un trabajo y le pasa la posta a la siguiente, así un agente lleva una landing del diagnóstico a la sección reconstruida sin adivinar.',
+      skills: ['audit-landing', 'design-tokens', 'rebuild-section', 'motion-design'],
+      link: 'Ver en GitHub',
+    },
   },
   mobile: {
-    title: 'React Native desde 2019',
-    intro: 'Antes de los agentes, y junto con ellos: apps en las dos tiendas, módulos nativos, pipelines de release y accesibilidad bien hecha.',
-    phone: {
-      chat: 'harness bot',
-      status: 'en línea',
-      messages: [
-        { title: 'Reporte de corrida', time: '09:20', lines: ['feature/checkout-coupons: PR abierto', '4 unidades · gate, review y e2e pasaron'] },
-        { title: 'Alerta de cuota', time: '11:05', lines: ['Ventana de Claude al 82%.', 'Los writers rotan al 95%.'] },
-        { title: 'Canary', time: '12:00', lines: ['Respondieron 5 de 5 modelos.', 'Cadena de fallback sana.'] },
-        { title: 'Self-heal', time: '14:40', lines: ['Liberé un lock viejo en el proyecto 2.', 'Ningún gate se tocó.'] },
-      ],
-      caption: 'Donde se cruzan mis dos carreras: los agentes reportan a un teléfono. Mensajes ilustrativos.',
-    },
+    title: 'Apps en producción',
+    intro: 'React Native desde 2019: apps en las dos tiendas, módulos nativos, pipelines de release y accesibilidad bien hecha.',
     apps: [
       {
         name: 'YoCripto',
@@ -412,7 +323,7 @@ export const es: Content = {
     title: 'Dónde trabajé',
     roles: [
       {
-        title: 'Software Designer · Senior React Native & AI Engineer',
+        title: 'Software Designer',
         company: 'Globant',
         period: 'Feb 2026 – Hoy',
         meta: 'Full-time · Remoto',
@@ -428,9 +339,9 @@ export const es: Content = {
         period: 'Feb 2026 – Hoy',
         meta: 'Contrato · Remoto',
         points: [
-          'Construí el agente de código autónomo de arriba: una máquina de estados determinística que convierte issues de GitHub en pull requests revisados (~450 commits, 90+ PRs mergeados, ~300 tests).',
+          'Construí el agente de código autónomo de arriba: una máquina de estados determinística que convierte issues en pull requests revisados (450+ commits, 90+ PRs mergeados, ~300 tests).',
           'Quality gates en cada PR, ruteo multi-modelo con fallbacks, tracking de tokens y costos por llamada, seguridad de mínimo privilegio.',
-          'Escribí skills reutilizables de Claude Code para auditoría web, design tokens, reconstrucción de secciones y efectos.',
+          'Entregué productos de clientes a través del pipeline, entre ellos el MVP de una PWA de servicio técnico para Voltaico en una semana.',
         ],
       },
       {
@@ -509,8 +420,8 @@ export const es: Content = {
     },
   },
   contact: {
-    title: 'Construyamos el tuyo.',
-    text: 'El email es la forma más rápida de contactarme. Trabajo remoto desde Argentina (UTC−3), con buena superposición con horarios de EE. UU. y Europa.',
+    title: 'Hablemos.',
+    text: 'Busco un rol full-time remoto como ingeniero senior full-stack o mobile. El email es la forma más rápida de contactarme. Trabajo desde Argentina (UTC−3), con buena superposición con horarios de EE. UU. y Europa.',
     email: 'brankoottavianelli@gmail.com',
     links: [
       { label: 'LinkedIn', href: 'https://www.linkedin.com/in/branko-ott' },
@@ -527,7 +438,7 @@ export const es: Content = {
       fallback: 'UTC−3. Las mañanas coinciden con la costa este de EE. UU. y las tardes con Europa.',
     },
     footer: {
-      tagline: 'Ingeniero React Native e IA senior. Bahía Blanca, Argentina.',
+      tagline: 'Ingeniero senior full-stack y mobile, AI-native. Bahía Blanca, Argentina.',
       onPage: 'En esta página',
       elsewhere: 'En otros lados',
       files: 'Archivos',

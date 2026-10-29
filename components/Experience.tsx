@@ -8,12 +8,12 @@ export function Experience({ experience: x }: { experience: Content['experience'
           {x.title}
         </h2>
 
-        <ol className="mt-14">
+        <ol className="mt-10">
           {x.roles.map((r) => (
             <li
               key={`${r.company}-${r.period}`}
               data-reveal
-              className="grid gap-3 py-8 md:grid-cols-12 md:gap-10 md:py-10"
+              className="grid gap-3 py-6 md:grid-cols-12 md:gap-10 md:py-7"
             >
               <div className="md:col-span-4">
                 <p className="display text-[1.6rem] leading-none">{r.company}</p>
@@ -33,7 +33,7 @@ export function Experience({ experience: x }: { experience: Content['experience'
               </div>
             </li>
           ))}
-          <li data-reveal className="grid gap-3 py-8 md:grid-cols-12 md:gap-10 md:py-10">
+          <li data-reveal className="grid gap-3 py-6 md:grid-cols-12 md:gap-10 md:py-7">
             <h3 className="display text-[1.6rem] leading-none md:col-span-4">{x.earlierTitle}</h3>
             <ul className="space-y-2 md:col-span-8">
               {x.earlier.map((e) => (

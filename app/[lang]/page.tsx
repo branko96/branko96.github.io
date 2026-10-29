@@ -6,13 +6,12 @@ import { Footer } from '@/components/Footer';
 import { BranchRail } from '@/components/fx/BranchRail';
 import { Effects } from '@/components/fx/Effects';
 import { Hero } from '@/components/Hero';
-import { Hire } from '@/components/Hire';
 import { Loop } from '@/components/Loop';
-import { Marquee } from '@/components/Marquee';
+import { Work } from '@/components/Work';
 import { Mobile } from '@/components/Mobile';
 import { Navbar } from '@/components/Navbar';
 import { PaletteLab } from '@/components/PaletteLab';
-import { SkillsChain } from '@/components/SkillsChain';
+import { Proof } from '@/components/Proof';
 import { getContent, isLang } from '@/content';
 
 export default async function Home({ params }: { params: Promise<{ lang: string }> }) {
@@ -27,12 +26,11 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
       <BranchRail />
       <main id="main">
         <Hero hero={c.hero} />
-        <Marquee items={c.marquee} label={lang === 'en' ? 'Tools I work with' : 'Herramientas con las que trabajo'} />
+        <Proof proof={c.proof} />
+        <Mobile mobile={c.mobile} />
         <Loop loop={c.loop} />
         <Craft craft={c.craft} />
-        <Hire hire={c.hire} />
-        <SkillsChain skills={c.skills} />
-        <Mobile mobile={c.mobile} />
+        <Work work={c.work} />
         <Experience experience={c.experience} />
         <Contact contact={c.contact} lang={lang} />
       </main>

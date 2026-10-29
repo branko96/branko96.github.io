@@ -103,11 +103,11 @@ components:
 
 ## Overview
 
-The portfolio of a senior React Native and AI engineer who builds agent harnesses. The page argues one thing: agents can carry a feature from issue to pull request, and a person only merges. Every visual decision serves that argument by showing the mechanism instead of describing it.
+The portfolio of a senior React Native and AI engineer who builds agent harnesses. The page is written for hiring: a recruiter or hiring manager should get the role, seniority and proof in the first screen, then can go as deep into the harness as they like.
 
 **Idea:** on this page, the harness's own output (a pull request, a run log, a bot report) becomes the imagery. The hero is a pull request whose checks complete on their own and that the visitor merges. The loop section is a run you scroll through and can break. The mobile section is the bot reporting to a phone. The page itself is a feature branch, drawn in the left margin, that merges into main at the contact.
 
-**Mode:** Persuade. The visitor is a hiring manager, a tech lead or a founder deciding whether to talk. Success is an email or a downloaded CV.
+**Mode:** Persuade. The visitor is a recruiter, hiring manager or tech lead deciding whether to interview. Success is an email or a downloaded CV.
 
 **Scene:** read on a laptop during the working day, often late in someone else's time zone, so dark by default with a full light theme.
 
@@ -139,7 +139,7 @@ No eyebrows, no small tracked capitals, no italic accent words, no gradient text
 
 A 12-column grid inside a 76rem container with equal outer margins (`clamp(1rem, 4vw, 2.5rem)`). Sections are `clamp(6rem, 14vh, 11rem)` apart. Neighbouring sections never share a composition:
 
-hero (headline across, lead and PR artefact split) → marquee band → drenched loop (sticky stage) → craft (sticky heading, accordion) → hire on a raised field (title / body rows) → skills (large-type list) → mobile (sticky phone, editorial list) → experience on a raised field → drenched contact with overlap clock → footer.
+hero (role headline across; photo, lead and PR artefact split) → proof strip of four verified numbers on a raised field → mobile apps (sticky heading, two-column list) → drenched loop (sticky stage) → craft (sticky heading, four-row accordion) → Oblivion Tech studio work with real screenshots and the open-source kit → experience → drenched contact → footer.
 
 ## Elevation & Depth
 
@@ -175,3 +175,14 @@ Controls are fully round (9999px). Surfaces use 16px corners, and drenched field
 - Don't use monospace outside code and interface fragments.
 - Don't invent clients, quotes, metrics or logos.
 - Don't let a headline run past two lines on desktop.
+
+## Portfolio refinement · October 2026
+
+- Audience is full-time hiring. The H1 is the CV title ("Senior full-stack & mobile engineer, AI-native"), the primary action is email, the secondary the CV. Title, metrics and dates match `cv/cv.html` exactly.
+- Removed: the tools marquee, the "hire me" offers, the standalone skills chain, the bot phone and the always-on grid. The kit lives inside the studio section.
+- The hero carries a real photo (`public/img/branko.jpg`) with name and current role.
+- Studio screenshots reveal with a native view timeline when supported, with a static fallback. Hover zoom only runs with a fine pointer.
+- The PR demonstration enables merge only after its checks finish; reduced motion makes the final checks immediately available.
+- The harness sticky scene requires a desktop viewport at least 800px high; shorter screens use the complete readable list.
+- Reveals observe newly inserted content. Reduced motion explicitly restores hidden content, including after a live preference change.
+- `public/og.png` is rendered from `assets-src/og.html` (`npm run og`); the CV PDF from `cv/cv.html` (`npm run cv`).

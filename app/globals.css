@@ -215,7 +215,7 @@
 @keyframes pop-in {
   from {
     opacity: 0;
-    transform: scale(0.6);
+    transform: scale(0.95);
   }
   to {
     opacity: 1;
@@ -280,38 +280,6 @@
   stroke-dashoffset: 1;
 }
 
-/* ── Teléfono: mensajes que llegan ── */
-.msg-in {
-  animation: msg-in 600ms var(--ease-premium) both;
-  animation-delay: var(--d, 0ms);
-}
-
-@keyframes msg-in {
-  from {
-    opacity: 0;
-    transform: translateY(18px) scale(0.97);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
-}
-
-/* ── Marquesina del stack ── */
-.marquee {
-  animation: marquee var(--dur, 40s) linear infinite;
-}
-
-.marquee-host:hover .marquee {
-  animation-play-state: paused;
-}
-
-@keyframes marquee {
-  to {
-    transform: translateX(-50%);
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -320,8 +288,7 @@
   .reveal-line > span,
   .fade-in,
   .loop-line,
-  .pop-in,
-  .msg-in {
+  .pop-in {
     animation: none;
     transform: none;
     opacity: 1;
@@ -329,8 +296,7 @@
   }
 
   .loop-cursor::after,
-  .check-spin,
-  .marquee {
+  .check-spin {
     animation: none;
   }
 
@@ -352,4 +318,29 @@
     transform: none;
     clip-path: none;
   }
+}
+
+.work-image img { transition: transform 700ms var(--ease-premium); }
+@media (hover: hover) and (pointer: fine) {
+  .work-image:hover img { transform: scale(1.035); }
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-fx='on'] [data-reveal]:not([data-shown]) { opacity: 1; transform: none; }
+  [data-fx='on'] [data-wipe]:not([data-shown]) { clip-path: none; }
+  .work-image img { transition: none; transform: none; }
+}
+
+/* A project enters as a composed image, distinct from the text reveals. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .work-image {
+      animation: project-arrive linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 100%;
+    }
+  }
+}
+@keyframes project-arrive {
+  from { clip-path: inset(6% 4% 6% 4% round 16px); transform: translateY(28px); }
+  to { clip-path: inset(0 round 16px); transform: translateY(0); }
 }
