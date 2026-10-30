@@ -393,7 +393,7 @@ export const en: Content = {
     ],
     earlierTitle: 'Earlier, 2017–2021',
     earlier: [
-      'Aspire: NFT marketplace for a US client in React and TypeScript with IPFS, S3 and Firebase Auth.',
+      'NFT Studios (Apr–Sep 2021): NFT marketplace on the Aspire blockchain for a US client in React and TypeScript with IPFS, S3 and Firebase Auth.',
       'Boxtracker: React and Rails 6 platform that charts planned versus actual construction progress from Excel files.',
       'Club Preferencial: PHP and MySQL web features and an Android (Java) app.',
     ],
