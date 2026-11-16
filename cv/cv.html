@@ -46,7 +46,8 @@
   .meta { margin-top: 1pt; color: var(--dim); font-size: 8.3pt; }
   ul { margin: 2.5pt 0 0; padding-left: 10pt; color: #1d2336; }
   li { margin: 1.5pt 0; break-inside: avoid; padding-left: 1pt; }
-  li::marker { content: '▸  '; color: var(--accent); font-size: 7pt; }
+  ul { list-style: disc; }
+  li::marker { content: '•  '; color: var(--accent); }
 
   .projects { }
   .project + .project { margin-top: 4pt; }
@@ -79,16 +80,9 @@
     </p>
   </header>
 
-  <section class="stats" aria-label="Highlights">
-    <div class="stat"><strong>7 yrs</strong><span>shipping React Native apps to the App Store and Google Play</span></div>
-    <div class="stat"><strong>450+</strong><span>commits and 90+ merged PRs from my own coding agent</span></div>
-    <div class="stat"><strong>35K+</strong><span>waitlist at launch for the YoCripto app</span></div>
-    <div class="stat"><strong>780+</strong><span>soil-carbon certificates issued by my contracts at Biotoken</span></div>
-  </section>
-
   <main>
   <h2>Summary</h2>
-  <p class="lead">Senior engineer with 7 years shipping React Native apps to the App Store and Google Play, plus full-stack web with Next.js and NestJS. Today at Globant I own the AI side of the delivery process: agents, skills and workflows that the whole team (UX, product, frontend, QA) uses daily; before that I led the team at Biotoken. I work agent-native: Claude Code daily, plus my own coding agent (450+ commits, 90+ merged PRs) and a development, testing and code-review harness with layered human + agent verification, so a small team ships like a larger one. Fluent working English with US, Canadian and European teams since 2021.</p>
+  <p class="lead">Senior full-stack and mobile engineer with 7 years shipping React Native apps to the App Store and Google Play, plus full-stack web with Next.js, NestJS and Node.js. At Globant I own the team's AI-assisted SDLC; I built a coding agent with 90+ merged PRs and led the Biotoken team. Agile delivery in English with US, Canadian and European teams since 2021.</p>
 
   <h2>Experience</h2>
 
@@ -97,9 +91,10 @@
       <p class="title"><span>Software Designer · <span class="co">Globant</span></span><span class="when">Feb 2026 – <span class="now">Present</span></span></p>
       <p class="meta">Full-time · Remote</p>
       <ul>
-        <li><b>Arden University (UK)</b>, React web app with a Java backend and an upcoming React Native app: own the team's AI-assisted SDLC, building the agent harness inside the repository with Claude Code and Globant Coda CLI.</li>
-        <li>Create custom skills, agents and workflows on demand for UX, product, frontend and QA, and onboard every team member onto the tooling.</li>
-        <li><b>Farmacity</b> (Argentina's leading pharmacy chain, 370+ stores): Senior React Native developer, carried the client's mobile app project through delivery.</li>
+        <li>Own the AI-assisted SDLC for <b>Arden University (UK)</b>: a React web app with a Java backend and an upcoming React Native app.</li>
+        <li>Built the in-repo agent harness with Claude Code and Globant Coda CLI, used daily by 4 disciplines (UX, product, frontend, QA).</li>
+        <li>Create custom skills, agents and workflows on demand, and onboarded every team member onto the tooling.</li>
+        <li>Delivered the mobile app for <b>Farmacity</b> (Argentina's leading pharmacy chain, 370+ stores) as Senior React Native developer.</li>
       </ul>
     </div>
   </div>
@@ -109,11 +104,11 @@
       <p class="title"><span>AI Engineer – Agents &amp; Automation · <span class="co">Oblivion Tech</span></span><span class="when">Feb 2026 – <span class="now">Present</span></span></p>
       <p class="meta">Contract · Agent-driven software studio for startups and SMBs</p>
       <ul>
-        <li>Built an autonomous coding agent that turns issues into reviewed pull requests: a deterministic state machine orchestrates, the LLM only writes code (450+ commits, 90+ merged PRs, ~300 automated tests).</li>
-        <li>Quality gates on every PR: schema-validated plans, dependency readiness checks, read-only AI diff review with prompt-injection detection, and Playwright end-to-end tests with autofix.</li>
-        <li>Multi-model routing (Claude, Codex, GLM, DeepSeek, Qwen) with fallbacks, plan/review caching and per-call token and cost tracking, plus an ops dashboard for usage, cost and failed runs.</li>
-        <li>Least-privilege security: bot account that cannot change CI or merge its own PRs, pre-push guard and gitleaks secret scanning.</li>
-        <li>Shipped client products through the pipeline: a field-service PWA MVP for Voltaico delivered in one week (Next.js 14, NestJS, MongoDB) and a multi-tenant e-commerce platform (NestJS, Next.js).</li>
+        <li>Built an autonomous coding agent that turns issues into reviewed pull requests (450+ commits, 90+ merged PRs, ~300 automated tests); a deterministic state machine orchestrates and the LLM only writes code.</li>
+        <li>Enforced quality gates on every PR: schema-validated plans, dependency checks, AI diff review with prompt-injection detection, and Playwright end-to-end tests with autofix.</li>
+        <li>Implemented multi-model routing across 5 LLMs (Claude, Codex, GLM, DeepSeek, Qwen) with fallbacks, caching, per-call cost tracking and an ops dashboard.</li>
+        <li>Secured the pipeline with least privilege: a bot account that cannot change CI or merge its own PRs, a pre-push guard and gitleaks secret scanning.</li>
+        <li>Shipped a field-service PWA MVP for Voltaico in 1 week (Next.js 14, NestJS, MongoDB) and a multi-tenant e-commerce platform (NestJS, Next.js).</li>
       </ul>
     </div>
   </div>
@@ -123,10 +118,10 @@
       <p class="title"><span>Team Lead – Frontend &amp; Full-Stack · <span class="co">Biotoken</span></span><span class="when">Jan 2025 – Feb 2026</span></p>
       <p class="meta">Full-time · Remote</p>
       <ul>
-        <li>Led a team of 2 developers: owned delivery, planning and code review for the whole product.</li>
+        <li>Led a team of 2 developers, owning delivery, sprint planning and code review for the whole product.</li>
         <li>Built a full-stack platform end to end: NestJS REST API plus React / Next.js web and React Native mobile clients.</li>
         <li>Designed, tested and deployed Solidity smart contracts on Polygon (ERC-1155 linked to ERC-20) that have issued 780+ soil-carbon certificates.</li>
-        <li>Set up an agent-driven workflow (Claude Code, custom agents, automated test and review harness) with human sign-off on every merge.</li>
+        <li>Introduced an agent-driven workflow (Claude Code, custom agents, automated test and review harness) with human sign-off on 100% of merges.</li>
       </ul>
     </div>
   </div>
@@ -136,8 +131,8 @@
       <p class="title"><span>Senior React Native Developer · <span class="co">YoCripto</span></span><span class="when">Nov 2022 – Sep 2024</span></p>
       <p class="meta">Full-time · Remote · Bitcoin-rewards credit card</p>
       <ul>
-        <li>Built a new app on Expo SDK 48, launched to a 35K+ waitlist, with push notifications, config plugins and native modules for identity verification (KYC).</li>
-        <li>Maintained and stabilized the production React Native / Expo app.</li>
+        <li>Launched a new Expo SDK 48 app to a 35K+ waitlist, with push notifications, config plugins and native modules for identity verification (KYC).</li>
+        <li>Stabilized and maintained the production React Native / Expo app.</li>
         <li>Built a React admin dashboard from scratch to manage feature flags, A/B tests, themes and user debug data.</li>
       </ul>
     </div>
@@ -148,7 +143,7 @@
       <p class="title"><span>Senior React Native Developer · <span class="co">TrueNorth</span></span><span class="when">May 2022 – Oct 2022</span></p>
       <p class="meta">Contract · Fintech app for a Canadian client · 13-person team</p>
       <ul>
-        <li>Coordinated user stories, backend endpoints, frontend implementation and QA across a 13-person team.</li>
+        <li>Coordinated user stories, backend endpoints, frontend implementation and QA across a 13-person Agile team.</li>
         <li>Built CI/CD on Bitrise to automate building and publishing app releases.</li>
         <li>Migrated 3 React Native apps into a monorepo with shared resources.</li>
       </ul>
@@ -161,7 +156,7 @@
       <p class="meta">Contract · Social app for Keller Williams agents · team from the US, Poland and Ukraine</p>
       <ul>
         <li>Built posting, replies, image/video capture (React Native Camera) and GraphQL integration.</li>
-        <li>Owned production releases each sprint and ran client demos.</li>
+        <li>Owned production releases every sprint and ran client demos.</li>
       </ul>
     </div>
   </div>
@@ -171,9 +166,19 @@
       <p class="title"><span>React Native Developer (Lead) · <span class="co">OpenDev Pro</span></span><span class="when">Mar 2021 – Nov 2021</span></p>
       <p class="meta">US client · Ride-hailing for patients who need special assistance</p>
       <ul>
-        <li>Acted as lead developer, mentoring junior and mid-level developers; built both the passenger app (Expo) and the driver app (bare RN).</li>
+        <li>Led development of 2 apps, mentoring junior and mid-level developers: the passenger app (Expo) and the driver app (bare React Native).</li>
         <li>Implemented full screen-reader accessibility (VoiceOver, TalkBack), camera OCR, geolocation and maps.</li>
-        <li>Stack: TypeScript, Redux, Redux-Saga; ran sprint demos and dailies with the client.</li>
+        <li>Ran sprint demos and dailies with the client, using TypeScript, Redux and Redux-Saga.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="job">
+    <div>
+      <p class="title"><span>Contract Developer · <span class="co">NFT Studios</span></span><span class="when">Apr 2021 – Sep 2021</span></p>
+      <p class="meta">Contract · US client</p>
+      <ul>
+        <li>Built an NFT marketplace on the Aspire blockchain in React + TypeScript, with IPFS, AWS S3, Firebase Auth and a Rails backend.</li>
       </ul>
     </div>
   </div>
@@ -182,7 +187,7 @@
     <div>
       <p class="title"><span>React Native Developer · <span class="co">RazorTech</span></span><span class="when">Nov 2019 – Mar 2021</span></p>
       <ul>
-        <li>Sole mobile developer on 2 React Native apps built from scratch, with CI/CD (fastlane, GitLab CI), push notifications and a Ruby on Rails REST API.</li>
+        <li>Built 2 React Native apps from scratch as sole mobile developer, with CI/CD (fastlane, GitLab CI), push notifications and a Ruby on Rails REST API.</li>
         <li>Shipped features on an Angular + Rails lab platform that uses AI image analysis for metaphase detection.</li>
       </ul>
     </div>
@@ -190,11 +195,10 @@
 
   <div class="job">
     <div>
-      <p class="title"><span>Earlier roles</span><span class="when">2017 – 2021</span></p>
+      <p class="title"><span>Earlier roles</span><span class="when">2017 – 2019</span></p>
       <ul>
-        <li><b>NFT Studios</b> (contract, Apr–Sep 2021): NFT marketplace on the Aspire blockchain for a US client in React + TypeScript, IPFS, AWS S3, Firebase Auth, Rails backend.</li>
-        <li><b>Boxtracker</b> (freelance, 2018–2019): designed a React + Rails 6 platform that ingests Excel progress files and charts planned vs. actual construction progress; owned the client relationship.</li>
-        <li><b>Club Preferencial</b> (part-time, 2017–2019): PHP/MySQL web features with jQuery and an Android (Java) app.</li>
+        <li>Designed a React + Rails 6 platform for <b>Boxtracker</b> (freelance, 2018–2019) that ingests Excel progress files and charts planned vs. actual construction progress; owned the client relationship.</li>
+        <li>Developed PHP/MySQL web features with jQuery and an Android (Java) app for <b>Club Preferencial</b> (part-time, 2017–2019).</li>
       </ul>
     </div>
   </div>
@@ -215,7 +219,9 @@
   <div class="skills">
     <b>Mobile</b><p class="tags"><span>React Native</span><span>Expo</span><span>iOS and Android releases</span><span>native modules</span><span>push notifications</span><span>Bitrise</span><span>fastlane</span></p>
     <b>Web</b><p class="tags"><span>TypeScript</span><span>JavaScript</span><span>React</span><span>Next.js</span><span>Redux</span><span>GraphQL</span><span>REST</span><span>Angular</span></p>
-    <b>Backend</b><p class="tags"><span>NestJS</span><span>Node.js</span><span>Ruby on Rails</span><span>MongoDB</span><span>MySQL</span></p>
+    <b>Backend</b><p class="tags"><span>NestJS</span><span>Node.js</span><span>Ruby on Rails</span><span>REST APIs</span><span>SQL</span><span>MySQL</span><span>MongoDB</span></p>
+    <b>Cloud/DevOps</b><p class="tags"><span>Docker</span><span>AWS (S3)</span><span>Firebase</span><span>CI/CD</span><span>Bitrise</span><span>GitLab CI</span></p>
+    <b>Practices</b><p class="tags"><span>Agile / Scrum</span><span>code review</span><span>automated testing</span><span>monorepos</span><span>accessibility</span></p>
     <b>AI &amp; tooling</b><p class="tags"><span>Claude Code</span><span>Globant Coda CLI</span><span>Codex</span><span>AI agents, skills and harnesses</span><span>prompt engineering</span><span>multi-model routing</span><span>LangGraph</span><span>OpenSpec (SDD)</span><span>Playwright</span><span>LLM integration</span><span>Git</span><span>GitHub</span><span>GitLab CI</span><span>Jest</span></p>
     <b>Web3</b><p class="tags"><span>Solidity</span><span>Polygon</span><span>ERC-1155 / ERC-20</span></p>
     <b>Languages</b><p class="tags plain"><span>Spanish (native) · English (professional working proficiency)</span></p>
